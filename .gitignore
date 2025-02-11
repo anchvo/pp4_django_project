@@ -1,0 +1,9 @@
+.venv
+env.py
+__pycache__/
+*.pyc
+*.py[cod]
+node_modules/
+core.Microsoft*
+core.mongo*
+core.python*
