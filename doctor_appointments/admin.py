@@ -6,7 +6,7 @@ from .models import Patient, Doctor, Appointment
 @admin.register(Appointment)
 class AppointmentAdmin(SummernoteModelAdmin):
 
-    list_display = ('patient', 'doctor', 'appointment_date', 'created_at')
+    list_display = ('patient', 'doctor', 'appointment_date', 'created_on')
     search_fields = ['patient']
     list_filter = ('doctor', 'appointment_date', 'patient',)
     summernote_fields = ('additional_info',)
