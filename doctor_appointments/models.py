@@ -21,6 +21,7 @@ class Appointment(models.Model):
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     appointment_date = models.DateTimeField()
+    additional_info = models.TextField(default="Medication Plan:")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
