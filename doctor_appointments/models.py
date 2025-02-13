@@ -24,4 +24,4 @@ class Appointment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.patient} - {self.doctor} on {self.appointment_date}"
+        return f"{self.patient} at {self.doctor} on {self.appointment_date}"
