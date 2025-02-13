@@ -1,0 +1,1 @@
+console.log("Test, that collecting static files works");
