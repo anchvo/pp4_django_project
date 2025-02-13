@@ -1,0 +1,32 @@
+/*Colours*/
+.main-bg {
+    background-color: #FDF0D5;
+}
+
+.dark-bg {
+    background-color: #01579B;
+}
+
+.font-white {
+    color: #FFFFFF;
+}
+
+/*General*/
+body {
+    background-color: #FDF0D5;
+}
+
+/*Navbar*/
+.brand {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+    letter-spacing: 1px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+/*Cards*/
+.card {
+    border: none;
+    background-color: rgb(179, 229, 252);
+}
