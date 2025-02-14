@@ -1,0 +1,37 @@
+<!-- Extending generic content from base template (Navbar & Footer) -->
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Main content starts here -->
+<div class="heading">
+    <div class="container">
+        <div class="row g-0">
+            <div class="col-md-8 heading-text">
+                <!-- Appointment Title -->
+                <h1 class="appointment-title">{{ appointment.doctor }} | </h1>
+                <!-- Appointment Subtitle -->
+                <p class="appointment-subtitle">Appointment at {{ appointment.appointment_date }}</p>
+            </div>
+            <div class="d-none d-md-block col-md-4 heading-icon">
+                <i class="fa-solid fa-calendar-check"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col card mb-4  mt-3 left  top">
+            <div class="card-body">
+                <!-- All additional appointment information -->
+                <!-- Use the | safe filter inside the template tags -->
+                <p class="card-text">
+                    {{ appointment.additional_info | safe }}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
