@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Appointment
-from .forms import RoleForm, PatientProfileForm
+from .forms import RoleForm, PatientProfileForm, DoctorProfileForm
 
 
 # Create your views here.
@@ -49,4 +49,22 @@ def view_patient_profile_form(request):
         context = {
             'form': form,
         }
-    return render(request, 'doctor_appointments/setup_profile.html', context)
+    return render(request, 'doctor_appointments/setup_patient_profile.html', context)
+
+
+def view_doctor_profile_form(request):
+    if request.method == 'POST':
+        form = DoctorProfileForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Your Profile was set up correctly')
+
+    else:
+        form = DoctorProfileForm()
+        context = {
+            'form': form,
+        }
+    return render(request, 'doctor_appointments/setup_doctor_profile.html', context)
+
+
+

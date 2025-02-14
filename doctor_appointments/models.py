@@ -24,7 +24,7 @@ class Doctor(models.Model):
     specialisations = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200, blank=True)
     address = models.CharField(max_length=200, blank=True)
-    features = models.BooleanField(default=None)
+    features = models.CharField(blank=True)
 
     def __str__(self):
         return self.full_name
@@ -42,13 +42,6 @@ class Location(models.Model):
 
     def __str__(self):
         return self.location.city
-
-
-class Features(models.Model):
-    features = models.CharField(default=None)
-
-    def __str__(self):
-        return self.features
 
 
 class Specialisation(models.Model):
