@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from .models import Appointment
 from .forms import RoleForm, PatientProfileForm, DoctorProfileForm
@@ -67,4 +67,6 @@ def view_doctor_profile_form(request):
     return render(request, 'doctor_appointments/setup_doctor_profile.html', context)
 
 
+def view_profile_choice(request):
 
+    return render(request, 'doctor_appointments/profile_choice.html')
