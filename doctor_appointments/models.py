@@ -8,7 +8,7 @@ class Patient(models.Model):
     full_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
     phone_number = models.IntegerField(default=None)
-    preferred_contact = models.BooleanField(default=None)
+    preferred_contact = models.CharField(default=None)
 
     def __str__(self):
         return self.full_name
