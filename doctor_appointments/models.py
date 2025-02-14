@@ -31,7 +31,7 @@ class Doctor(models.Model):
 
 
 class Role(models.Model):
-    role = models.BooleanField(default="Patient")
+    role = models.CharField(default=None)
 
     def __str__(self):
         return self.role
@@ -65,7 +65,7 @@ class Appointment(models.Model):
     doctor_location = models.ForeignKey(Location, on_delete=models.CASCADE, default=1)
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     appointment_date = models.DateTimeField()
-    additional_info = models.TextField(default="Medication Plan:")
+    additional_info = models.TextField(default=None)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

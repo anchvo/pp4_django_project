@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views import generic
 from .models import Appointment
+from .forms import RoleForm
 
 
 # Create your views here.
@@ -21,3 +22,16 @@ def view_appointment(request, appointment_id):
     )
 
 
+def view_role_form(request):
+    if request.method == 'POST':
+        form = RoleForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponse('Your role was saved')
+
+    else:
+        form = RoleForm()
+        context = {
+            'form': form,
+        }
+    return render(request, 'doctor_appointments/role_choice.html', context)
