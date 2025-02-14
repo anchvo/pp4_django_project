@@ -51,7 +51,10 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'django_summernote',
+    # My Apps
     'doctor_appointments',
+    # Other Apps
+    'phonenumber_field',
 ]
 
 SITE_ID = 1
