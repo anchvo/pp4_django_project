@@ -1,0 +1,41 @@
+<!-- Extending generic content from base template (Navbar & Footer) -->
+{% extends "base.html" %} {% block content %}
+
+<!-- Main content starts here -->
+<div class="container-fluid">
+  <div class="row">
+    <h1 class="welcome-title"><div class="container-fluid">
+  <div class="row">
+    <h1 class="profile-choice-tilte">Welcome {{ user.username }}</h1>
+    <h2>Please chose how you want to set up your profile.</h2>
+    <!-- Profile Categories Column -->
+    <div class="col-12 mt-3 left">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card mb-4">
+            <div class="card-body">
+              <h2 class="card-title">Appointments</h2>
+              <hr />
+              <p>If you have Appointments connected to your Account, you can find them here. You can create new Appointments and edit or delete existing ones.</p>
+              <button type="button" class="btn">
+                <a href="">View Appointments</a>
+              </button>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h2 class="card-title">Profile</h2>
+                <hr />
+                <p>If you want to see the information stored in your profile, you can find those here.</p>
+                <button type="button" class="btn">
+                  <a href="">View Profile</a>
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

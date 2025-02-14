@@ -131,6 +131,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Email verification - turned off
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 
+# SignUp redirect to different page
+ACCOUNT_SIGNUP_REDIRECT_URL = '/profile_choice/'
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
