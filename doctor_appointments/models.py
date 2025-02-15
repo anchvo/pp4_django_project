@@ -34,14 +34,14 @@ class Location(models.Model):
     location = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.location.city
+        return self.city
 
 
 class Specialisation(models.Model):
     specialisation = models.ForeignKey(Doctor, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.specialisation.specialisations
+        return self.specialisation
 
 
 class Appointment(models.Model):

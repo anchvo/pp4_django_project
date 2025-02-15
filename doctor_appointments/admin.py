@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django_summernote.admin import SummernoteModelAdmin
-from .models import Patient, Doctor, Appointment
+from .models import Patient, Doctor, Appointment, Location, Specialisation
 
 
 @admin.register(Appointment)
@@ -15,3 +15,5 @@ class AppointmentAdmin(SummernoteModelAdmin):
 # Register your models here.
 admin.site.register(Patient)
 admin.site.register(Doctor)
+admin.site.register(Location)
+admin.site.register(Specialisation)
