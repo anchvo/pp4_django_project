@@ -28,7 +28,7 @@ class DoctorProfileForm(forms.ModelForm):
     practice_name = forms.CharField(max_length=400, help_text="Please enter the name of your practice")
     email = forms.EmailField(max_length=254, help_text="Please enter your email address.")
     phone_number = forms.IntegerField(help_text="Please enter your phone number.")
-    specialisations = forms.CharField(max_length=200, help_text="Please enter your specialisations separated by commas e.g. Cardiology")
+    specialisation = forms.CharField(max_length=200, help_text="Please enter your specialisations separated by commas e.g. Cardiology")
     city = forms.CharField(max_length=200, help_text="Please enter your city.")
     address = forms.CharField(max_length=200, help_text="Please enter your address (street + number).")
     features = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, choices=OPTIONS, help_text="Please choose the accessibility options you provide.")

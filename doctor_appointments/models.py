@@ -21,7 +21,7 @@ class Doctor(models.Model):
     practice_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
     phone_number = models.CharField(max_length=30, blank=True)
-    specialisations = models.CharField(max_length=200, blank=True)
+    specialisation = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200, blank=True)
     address = models.CharField(max_length=200, blank=True)
     features = models.CharField(blank=True)
