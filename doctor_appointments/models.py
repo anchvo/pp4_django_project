@@ -7,7 +7,7 @@ class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    phone_number = models.IntegerField(default=None)
+    phone_number = models.CharField(max_length=30, blank=True)
     preferred_contact = models.CharField(default=None)
 
     def __str__(self):
@@ -20,7 +20,7 @@ class Doctor(models.Model):
     full_name = models.CharField(max_length=400, blank=True)
     practice_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    phone_number = models.IntegerField(default=None)
+    phone_number = models.CharField(max_length=30, blank=True)
     specialisations = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200, blank=True)
     address = models.CharField(max_length=200, blank=True)
@@ -28,13 +28,6 @@ class Doctor(models.Model):
 
     def __str__(self):
         return self.full_name
-
-
-class Role(models.Model):
-    role = models.CharField(default=None)
-
-    def __str__(self):
-        return self.role
 
 
 class Location(models.Model):

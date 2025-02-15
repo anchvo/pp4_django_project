@@ -1,17 +1,5 @@
 from django import forms
-from .models import Role, Patient, Doctor
-
-
-class RoleForm(forms.ModelForm):
-    CHOICES = (
-        ('1', 'Patient'),
-        ('2', 'Doctor'),
-    )
-    role = forms.ChoiceField(choices=CHOICES)
-
-    class Meta:
-        model = Role
-        fields = ('role',)
+from .models import Patient, Doctor
 
 
 class PatientProfileForm(forms.ModelForm):
