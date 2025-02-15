@@ -31,9 +31,9 @@ class PatientProfileForm(forms.ModelForm):
 
 class DoctorProfileForm(forms.ModelForm):
     OPTIONS = (
-        ('1', 'Parking'),
-        ('2', 'Elevator'),
-        ('3', 'Disabled Access'),
+        ('Parking', 'Parking'),
+        ('Elevator', 'Elevator'),
+        ('Disabled Access', 'Disabled Access'),
     )
     title = forms.CharField(max_length=100, help_text="Please enter your medical title.")
     full_name = forms.CharField(max_length=400, help_text="Please enter your first, middle and last name.")
