@@ -1,4 +1,5 @@
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.views import generic
 from .models import Appointment
 from .forms import RoleForm, PatientProfileForm, DoctorProfileForm
@@ -39,32 +40,38 @@ def view_role_form(request):
 
 def view_patient_profile_form(request):
     if request.method == 'POST':
-        form = PatientProfileForm(request.POST)
+        form = PatientProfileForm(data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse('Your Profile was set up correctly')
 
-    else:
-        form = PatientProfileForm()
-        context = {
-            'form': form,
-        }
-    return render(request, 'doctor_appointments/setup_patient_profile.html', context)
+    form = PatientProfileForm()
+
+    return render(
+        request,
+        'doctor_appointments/setup_patient_profile.html',
+        {
+            'form': form
+        },
+    )
 
 
 def view_doctor_profile_form(request):
     if request.method == 'POST':
-        form = DoctorProfileForm(request.POST)
+        form = DoctorProfileForm(data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponse('Your Profile was set up correctly')
 
-    else:
-        form = DoctorProfileForm()
-        context = {
-            'form': form,
-        }
-    return render(request, 'doctor_appointments/setup_doctor_profile.html', context)
+    form = DoctorProfileForm()
+    
+    return render(
+        request,
+        'doctor_appointments/setup_doctor_profile.html',
+        {
+            'form': form
+        },
+    )
 
 
 def view_profile_choice(request):
