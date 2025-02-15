@@ -54,5 +54,12 @@ class Appointment(models.Model):
     additional_info = models.TextField(default=None)
     created_on = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        # Add UniqueConstraint to ensure combination of doctor and appointment_date is unique
+        # This allows a specific date & time appointment for each doctor to be only booked once
+        constraints = [
+            models.UniqueConstraint(fields=['doctor', 'appointment_date'], name='unique_appointment')
+        ]
+
     def __str__(self):
         return f"{self.patient.full_name} at {self.doctor.practice_name} on {self.appointment_date}"
