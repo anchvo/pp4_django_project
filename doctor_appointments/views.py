@@ -98,6 +98,12 @@ def view_doctor_profile_form(request):
     )
 
 
+# Render Profile View Page
+def view_profile_view(request):
+
+    return render(request, 'doctor_appointments/profile_view.html')
+
+
 # Render Appointment List on Appointments Page
 class AppointmentList(generic.ListView):
     queryset = Appointment.objects.all().order_by('-appointment_date')
