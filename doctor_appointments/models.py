@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -7,7 +8,10 @@ class Patient(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     full_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    phone_number = models.CharField(max_length=30, blank=True)
+    phone_number = models.CharField(
+        max_length=30, 
+        blank=True, 
+        validators=[RegexValidator(r'^[\d\-\(\)\s]+$', 'Phone number must only contain numbers, spaces, dashes, or parentheses.')])
     preferred_contact = models.CharField(default=None)
 
     def __str__(self):
@@ -20,7 +24,10 @@ class Doctor(models.Model):
     full_name = models.CharField(max_length=400, blank=True)
     practice_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
-    phone_number = models.CharField(max_length=30, blank=True)
+    phone_number = models.CharField(
+        max_length=30, 
+        blank=True, 
+        validators=[RegexValidator(r'^[\d\-\(\)\s]+$', 'Phone number must only contain numbers, spaces, dashes, or parentheses.')])
     specialisations = models.CharField(max_length=200, blank=True)
     city = models.CharField(max_length=200, blank=True)
     address = models.CharField(max_length=200, blank=True)
@@ -40,10 +47,10 @@ class Location(models.Model):
 
 class Specialisation(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, default=1)
-    specialisation = models.CharField(blank=True)
+    specialisation_name = models.CharField(blank=True)
 
     def __str__(self):
-        return self.specialisation
+        return self.specialisation_name
 
 
 class Appointment(models.Model):

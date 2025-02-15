@@ -37,6 +37,27 @@ class DoctorProfileForm(forms.ModelForm):
         model = Doctor
         fields = ('title', 'full_name', 'practice_name', 'email', 'phone_number', 'specialisations', 'city', 'address', 'features')
 
+    # Custom validation method to clean up specialisation entries 
+    def clean_specialisations(self):
+        specialisations = self.cleaned_data['specialisations']
+        
+        # Split by commas, strip spaces, and remove empty entries
+        specialisations_list = [spec.strip() for spec in specialisations.split(',') if spec.strip()]
+        
+        # If no valid specialisations are provided, raise a validation error
+        if not specialisations_list:
+            raise ValidationError('Please enter at least one valid specialisation.')
+        
+        # Create Specialisation objects for each cleaned and validated specialisation
+        for spec_name in specialisations_list:
+            # Create and save Specialisation instance
+            Specialisation.objects.create(
+                doctor=self.instance,  # Use the current Doctor instance
+                specialisation_name=spec_name  # Save the specialisation name
+            )
+        
+        return specialisations_list
+
 
 class CreateAppointmentForm(forms.ModelForm):
 
