@@ -62,6 +62,11 @@ def view_doctor_profile_form(request):
             doctor.user = request.user  # Assign the logged-in user to the Doctor instance
             doctor.save()
 
+            # Save the selected features as a joined string 
+            selected_features = ','.join(form.cleaned_data['features'])  # Join selected values as comma-separated string
+            doctor.features = selected_features
+            doctor.save()
+
             # Save user input location to Location model 
             location = Location(location=doctor, city=form.cleaned_data['city'])
             location.save()
