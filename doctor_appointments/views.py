@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Appointment, Patient, Doctor, Location, Specialisation
 from .forms import PatientProfileForm, DoctorProfileForm
@@ -104,10 +105,43 @@ def view_doctor_profile_form(request):
     )
 
 
-# Render Profile View Page
+# Render Profile View Page, depending on logged in status as Doctor or Patient
+@login_required  # Page only visible to logged in users
 def view_profile_view(request):
 
-    return render(request, 'doctor_appointments/profile_view.html')
+    # Initialize variables for the profiles and appointments
+    doctor_profile = None
+    patient_profile = None
+    appointments = None
+
+    # Check if logged in user is a Doctor
+    try:
+        doctor_profile = Doctor.objects.get(user=request.user)
+    except Doctor.DoesNotExist:
+        doctor_profile = None
+
+    # Check if logged in user is a Patient
+    try:
+        patient_profile = Patient.objects.get(user=request.user)
+    except Patient.DoesNotExist:
+        patient_profile = None
+
+    # If logged in user is a Doctor, fetch their appointments
+    if doctor_profile:
+        appointments = Appointment.objects.filter(doctor=doctor_profile)
+
+    # If logged in user is a Patient, fetch their appointments
+    if patient_profile:
+        appointments = Appointment.objects.filter(patient=patient_profile)
+
+    context = {
+        'doctor_profile': doctor_profile,
+        'patient_profile': patient_profile,
+        'appointments': appointments,
+    }
+
+
+    return render(request, 'doctor_appointments/profile_view.html', context)
 
 
 # Render Appointment List on Appointments Page
