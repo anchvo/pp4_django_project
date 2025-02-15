@@ -4,7 +4,7 @@
 <div class="container mt-5">
     <h3>Create New Appointment</h3>
     
-    <form method="post" action="{% url 'create_appointment' %}">
+    <form method="post">
         {% csrf_token %}
         
         <!-- Specialisation Field -->

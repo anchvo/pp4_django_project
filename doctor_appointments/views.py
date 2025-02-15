@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import generic
@@ -159,7 +159,24 @@ def view_create_appointment(request):
     else:
         form = CreateAppointmentForm()
 
-    return render(request, 'create_appointment.html', {'form': form})
+    return render(request, 'doctor_appointments/create_appointment.html', {'form': form})
+
+
+# Handle Ajax request for Doctor JS dynamic filtering via JsonResponse
+def get_doctors(request):
+    specialisation_id = request.GET.get('specialisation')
+    location_id = request.GET.get('location')
+
+    # Filter doctors by specialisation and location
+    doctors = Doctor.objects.filter(
+        specialisations__id=specialisation_id,
+        location__id=location_id
+    )
+
+    # Create a list of doctors to return in the JSON response
+    doctor_data = [{'id': doctor.id, 'full_name': doctor.full_name} for doctor in doctors]
+
+    return JsonResponse({'doctors': doctor_data})
 
 
 # Render Appointment List on Appointments Page

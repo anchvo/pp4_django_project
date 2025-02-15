@@ -2,40 +2,41 @@
 {% extends "base.html" %} {% block content %}
 
 <!-- Main content starts here -->
-<div class="container-fluid">
-  <div class="row">
-    <h1 class="welcome-title"><div class="container-fluid">
+<div class="container mt-5">
   <div class="row">
     <h1 class="profile-choice-tilte">Welcome {{ user.username }}</h1>
     <h2>Please chose how you want to set up your profile.</h2>
-    <!-- Profile Categories Column -->
-    <div class="col-12 mt-3 left">
-      <div class="row">
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <div class="card-body">
-              <h2 class="card-title">Patient</h2>
-              <hr />
-              <p>Set up a patient account and make appointments with doctors</p>
-              <button type="button" class="btn">
-                <a href="{% url 'view_patient_profile_form' %}">Continue as a Patient</a>
-              </button>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card mb-4">
-              <div class="card-body">
-                <h2 class="card-title">Doctor</h2>
-                <hr />
-                <p>Set up a doctor account and save your practice and allow patients to make appointments</p>
-                <button type="button" class="btn">
-                  <a href="{% url 'view_doctor_profile_form' %}">Continue as a Doctor</a>
-                </button>
-              </div>
-            </div>
+    <!-- Profile Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Patient Profile</h4>
+          <p>Set up a patient account and make appointments with doctors</p>
+          <button type="button" class="btn">
+            <a href="{% url 'view_patient_profile_form' %}" class="btn btn-primary mt-3"
+              >Continue as a Patient</a
+            >
+          </button>
         </div>
       </div>
     </div>
+    <!-- Profile Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Doctor Profile</h4>
+          <p>
+            Set up a doctor account and save your practice and allow patients to
+            make appointments
+          </p>
+          <button type="button" class="btn">
+            <a href="{% url 'view_doctor_profile_form' %}" class="btn btn-primary mt-3"
+              >Continue as a Doctor</a
+            >
+          </button>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
   </div>
 </div>
-{% endblock %}
