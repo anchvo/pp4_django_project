@@ -5,48 +5,8 @@
 <!-- Main content starts here -->
 <div class="container-fluid">
   <div class="row">
-    <!-- Appointments Column -->
-    <div class="col-12 mt-3 left">
-      <div class="row">
-        {% for appointment in object_list %}
-        <div class="col-md-4">
-          <div class="card mb-4">
-            <div class="card-body">
-              <p class="patient">Patient: {{ appointment.patient }}</p>
-              <h2 class="card-title">
-                Appointment at: <br />
-                {{ appointment.doctor }} <br />
-                on {{ appointment.appointment_date}}
-              </h2>
-              <hr />
-              <p class="card-text text-muted h6">
-                Created on: {{ appointment.created_on}}
-              </p>
-              <button type="button" class="btn">
-              <a
-                href="'{% url 'view_appointment' appointment_id=appointment.pk %}'"
-                >View Appointment</a></button>
-            </div>
-          </div>
-        </div>
-        {% if forloop.counter|divisibleby:3 %}
-      </div>
-      <div class="row">{% endif %} {% endfor %}</div>
-    </div>
+    <h2>Welcome</h2>
   </div>
-  {% if is_paginated %}
-  <nav aria-label="Page navigation">
-    <ul class="pagination justify-content-center">
-      {% if page_obj.has_next %}
-      <li>
-        <a href="?page={{ page_obj.next_page_number }}" class="page-link">
-          MORE APPOINTMENTS &raquo;</a
-        >
-      </li>
-      {% endif %}
-    </ul>
-  </nav>
-  {% endif %}
 </div>
 
 {% endblock %}

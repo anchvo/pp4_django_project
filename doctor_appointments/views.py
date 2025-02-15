@@ -6,9 +6,14 @@ from .forms import RoleForm, PatientProfileForm, DoctorProfileForm
 
 
 # Create your views here.
+def view_index(request):
+
+    return render(request, 'doctor_appointments/index.html')
+
+
 class AppointmentList(generic.ListView):
     queryset = Appointment.objects.all()
-    template_name = "doctor_appointments/index.html"
+    template_name = "doctor_appointments/appointments.html"
     paginate_by = 6
 
 
