@@ -4,8 +4,8 @@ from .models import Patient, Doctor
 
 class PatientProfileForm(forms.ModelForm):
     CHOICES = (
-        ('1', 'Email'),
-        ('2', 'Phone'),
+        ('Email', 'Email'),
+        ('Phone', 'Phone'),
     )
     full_name = forms.CharField(max_length=400, help_text="Please enter your first, middle and last name.")
     email = forms.EmailField(max_length=254, help_text="Please enter your email address.")
