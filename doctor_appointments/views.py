@@ -188,6 +188,7 @@ def get_doctors(request):
     return JsonResponse({'doctors': doctor_data})
 
 
+# CURRENTLY STORED CODE RELATING TO URLS AND HTIML !! DELETE ALL IF UNUSED !!
 # Render Appointment List on Appointments Page
 class AppointmentList(generic.ListView):
     queryset = Appointment.objects.all().order_by('-appointment_date')
