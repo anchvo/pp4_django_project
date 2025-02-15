@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import generic
 from .models import Appointment, Patient, Doctor, Location, Specialisation
 from .forms import PatientProfileForm, DoctorProfileForm
@@ -27,7 +27,8 @@ def view_patient_profile_form(request):
             patient = form.save(commit=False)
             patient.user = request.user  # Assign the logged-in user to the Patient instance
             patient.save()
-            return HttpResponse('Your Profile was set up correctly')
+
+            return redirect('view_profile_view')  # Redirects to User Profile View
         
         else:
             # If the form is invalid, render form with errors
@@ -72,7 +73,7 @@ def view_doctor_profile_form(request):
                 specialisation = Specialisation(specialisation=doctor, specialisations=spec)
                 specialisation.save()
 
-            return HttpResponse('Your Profile was set up correctly')
+            return redirect('view_profile_view')  # Redirects to User Profile View
         
         else:
             print(form.errors)  # Check form errors
