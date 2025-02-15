@@ -24,10 +24,24 @@ def view_patient_profile_form(request):
     if request.method == 'POST':
         form = PatientProfileForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            patient = form.save(commit=False)
+            patient.user = request.user  # Assign the logged-in user to the Patient instance
+            patient.save()
             return HttpResponse('Your Profile was set up correctly')
+        
+        else:
+            # If the form is invalid, render form with errors
+            return render(
+                request,
+                'doctor_appointments/setup_patient_profile.html',
+                {
+                    'form': form,  # Show the form with error messages
+                    'error_message': 'Please correct the errors below.'  # Optional error message
+                }
+            )
 
-    form = PatientProfileForm()
+    else:  # If the request method is GET, just display an empty form
+        form = PatientProfileForm()
 
     return render(
         request,
@@ -43,7 +57,9 @@ def view_doctor_profile_form(request):
     if request.method == 'POST':
         form = DoctorProfileForm(data=request.POST)
         if form.is_valid():
-            form.save()
+            doctor = form.save(commit=False)
+            doctor.user = request.user  # Assign the logged-in user to the Doctor instance
+            doctor.save()
             return HttpResponse('Your Profile was set up correctly')
         else:
             print(form.errors)  # Check form errors
@@ -53,7 +69,7 @@ def view_doctor_profile_form(request):
                 'doctor_appointments/setup_doctor_profile.html',
                 {
                     'form': form,  # Show the form with error messages
-                    'error_message': 'Please correct the errors below.' # Optional error message
+                    'error_message': 'Please correct the errors below.'  # Optional error message
                 }
             )
 

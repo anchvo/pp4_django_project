@@ -48,4 +48,3 @@ class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = ('title', 'full_name', 'practice_name', 'email', 'phone_number', 'specialisations', 'city', 'address', 'features')
-
