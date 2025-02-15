@@ -82,10 +82,10 @@ def view_doctor_profile_form(request):
             location.save()
 
             # Save user input specialisations to Specialisation model
-            specialisation = form.cleaned_data['specialisation'].split(',')  # Splitting by comma-separated list
-            for spec in specialisation:
+            specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
+            for spec in specialisations:
                 spec = spec.strip()  # Clean extra spaces
-                specialisation = Specialisation(doctor=doctor, specialisation=spec)
+                specialisation = Specialisation(doctor=doctor, specialisations=spec)
                 specialisation.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
