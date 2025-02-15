@@ -31,14 +31,16 @@ class Doctor(models.Model):
 
 
 class Location(models.Model):
-    location = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, default=1)
+    city = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
         return self.city
 
 
 class Specialisation(models.Model):
-    specialisation = models.ForeignKey(Doctor, on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, default=1)
+    specialisation = models.CharField(blank=True)
 
     def __str__(self):
         return self.specialisation

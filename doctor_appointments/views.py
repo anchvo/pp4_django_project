@@ -56,6 +56,15 @@ def view_patient_profile_form(request):
 
 # Render Setup Doctor Profile Form & Page
 def view_doctor_profile_form(request):
+    
+    # Check if Doctor instance already exists to avoid database errors with OneToOne unique User to Doctor relationship
+    try:
+        doctor = Doctor.objects.get(user=request.user)
+        is_update = True  # Track if it's an update to existing profile
+    except Doctor.DoesNotExist:
+        doctor = None
+        is_update = False
+    
     if request.method == 'POST':
         form = DoctorProfileForm(data=request.POST)
         if form.is_valid():
@@ -63,20 +72,20 @@ def view_doctor_profile_form(request):
             doctor.user = request.user  # Assign the logged-in user to the Doctor instance
             doctor.save()
 
-            # Save the selected features as a joined string 
+            # Save the selected features (checkboxes) as a joined string
             selected_features = ','.join(form.cleaned_data['features'])  # Join selected values as comma-separated string
             doctor.features = selected_features
             doctor.save()
 
             # Save user input location to Location model 
-            location = Location(location=doctor, city=form.cleaned_data['city'])
+            location = Location(doctor=doctor, city=form.cleaned_data['city'])
             location.save()
 
             # Save user input specialisations to Specialisation model
             specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
             for spec in specialisations:
                 spec = spec.strip()  # Clean extra spaces
-                specialisation = Specialisation(specialisation=doctor, specialisations=spec)
+                specialisation = Specialisation(doctor=doctor, specialisations=spec)
                 specialisation.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
@@ -93,8 +102,8 @@ def view_doctor_profile_form(request):
                 }
             )
 
-    else:  # If the request method is GET, just display an empty form
-        form = DoctorProfileForm()
+    else:  # If the request method is GET, display the form (pre-filled if it's an update)
+        form = DoctorProfileForm(instance=doctor)
 
     return render(
         request,
