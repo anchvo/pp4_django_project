@@ -1,5 +1,5 @@
 from django import forms
-from .models import Patient, Doctor
+from .models import Patient, Doctor, Appointment, Location, Specialisation
 
 
 class PatientProfileForm(forms.ModelForm):
@@ -36,3 +36,29 @@ class DoctorProfileForm(forms.ModelForm):
     class Meta:
         model = Doctor
         fields = ('title', 'full_name', 'practice_name', 'email', 'phone_number', 'specialisations', 'city', 'address', 'features')
+
+
+class CreateAppointment(forms.ModelForm):
+
+    doctor_specialisation = forms.ModelChoiceField(
+        queryset=Specialisation.objects.all(),
+        empty_label="Select Specialisation",
+        required=True
+    )
+    doctor_location = forms.ModelChoiceField(
+        queryset=Location.objects.all(),
+        empty_label="Select Location",
+        required=True
+    )
+    appointment_date = forms.DateTimeField(
+        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}), 
+        required=True
+    )
+    additional_info = forms.CharField(widget=forms.Textarea, required=False)
+
+    # Exclude doctor initially, will be populated dynamically via JavaScript dynamic filtering
+    doctor = forms.ModelChoiceField(queryset=Doctor.objects.none(), required=True)
+
+    class Meta:
+        model = Appointment
+        fields = ['doctor_specialisation', 'doctor_location', 'appointment_date', 'additional_info']
