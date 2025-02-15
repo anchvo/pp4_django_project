@@ -23,21 +23,6 @@ def view_appointment(request, appointment_id):
     )
 
 
-def view_role_form(request):
-    if request.method == 'POST':
-        form = RoleForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponse('Your role was saved')
-
-    else:
-        form = RoleForm()
-        context = {
-            'form': form,
-        }
-    return render(request, 'doctor_appointments/role_choice.html', context)
-
-
 def view_patient_profile_form(request):
     if request.method == 'POST':
         form = PatientProfileForm(data=request.POST)
@@ -64,7 +49,7 @@ def view_doctor_profile_form(request):
             return HttpResponse('Your Profile was set up correctly')
 
     form = DoctorProfileForm()
-    
+
     return render(
         request,
         'doctor_appointments/setup_doctor_profile.html',
