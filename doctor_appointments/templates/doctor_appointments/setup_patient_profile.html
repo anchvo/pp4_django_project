@@ -1,13 +1,22 @@
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
 
 <!-- Main content starts here -->
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Submit">
-</form>
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 mt-3 offset-md-2">
+      <h3>Create a Patient Profile</h3>
 
+      <p>Additional Information following soon</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8 mt-3 offset-md-2">
+      <form method="post">
+        {% csrf_token %} {{ form | crispy }}
+        <button class="btn btn-secondary" type="submit">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock content %}
