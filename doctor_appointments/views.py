@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Appointment, Patient, Doctor, Location, Specialisation
-from .forms import PatientProfileForm, DoctorProfileForm
+from .forms import PatientProfileForm, DoctorProfileForm, CreateAppointmentForm
 
 
 # Create your views here.
@@ -142,6 +142,24 @@ def view_profile_view(request):
 
 
     return render(request, 'doctor_appointments/profile_view.html', context)
+
+
+# Render Create Appointment Form & HTML Page
+@login_required
+def view_create_appointment(request):
+    if request.method == 'POST':
+        form = CreateAppointmentForm(request.POST)
+        if form.is_valid():
+            # Save new appointment with current patient
+            appointment = form.save(commit=False)
+            patient = Patient.objects.get(user=request.user)
+            appointment.patient = patient  # Set patient as logged in user
+            appointment.save()
+            return redirect('profile_view')  # Redirect to the profile view after successful creation
+    else:
+        form = CreateAppointmentForm()
+
+    return render(request, 'create_appointment.html', {'form': form})
 
 
 # Render Appointment List on Appointments Page

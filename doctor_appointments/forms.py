@@ -38,7 +38,7 @@ class DoctorProfileForm(forms.ModelForm):
         fields = ('title', 'full_name', 'practice_name', 'email', 'phone_number', 'specialisations', 'city', 'address', 'features')
 
 
-class CreateAppointment(forms.ModelForm):
+class CreateAppointmentForm(forms.ModelForm):
 
     doctor_specialisation = forms.ModelChoiceField(
         queryset=Specialisation.objects.all(),

@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h3>Create New Appointment</h3>
+    
+    <form method="post" action="{% url 'create_appointment' %}">
+        {% csrf_token %}
+        
+        <!-- Specialisation Field -->
+        <div class="form-group">
+            <label for="doctor_specialisation">Specialisation</label>
+            {{ form.doctor_specialisation }}
+        </div>
+        
+        <!-- Location Field -->
+        <div class="form-group">
+            <label for="doctor_location">Location</label>
+            {{ form.doctor_location }}
+        </div>
+
+        <!-- Dynamic Doctor Dropdown (Initially empty) -->
+        <div class="form-group">
+            <label for="doctor">Doctor</label>
+            {{ form.doctor }}
+        </div>
+
+        <!-- Appointment Date Field -->
+        <div class="form-group">
+            <label for="appointment_date">Appointment Date</label>
+            {{ form.appointment_date }}
+        </div>
+
+        <!-- Additional Info Field -->
+        <div class="form-group">
+            <label for="additional_info">Additional Information</label>
+            {{ form.additional_info }}
+        </div>
+
+        <button type="submit" class="btn btn-success">Create Appointment</button>
+    </form>
+</div>
+{% endblock %}
