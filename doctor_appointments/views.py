@@ -222,7 +222,7 @@ def view_all_appointments(request):
     # Initialize variables for the profiles and appointments
     doctor_profile = None
     patient_profile = None
-    appointments = None
+    appointments = Appointment.objects.none()  # Start with an empty queryset to avoid NoneType errors
 
     # Ensure logged in users can only access their own profile
 
