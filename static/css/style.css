@@ -1,10 +1,10 @@
 /*Colours*/
 .main-bg {
-    background-color: #FDF0D5;
+    background-color: #E7E8C4;
 }
 
 .dark-bg {
-    background-color: #01579B;
+    background-color: #56682C;
 }
 
 .font-white {
@@ -13,7 +13,8 @@
 
 /*General*/
 body {
-    background-color: #FDF0D5;
+    background-color: #E7E8C4;
+    margin-bottom: 10px;
 }
 
 /*Navbar*/
@@ -28,10 +29,41 @@ body {
 /*Cards*/
 .card {
     border: none;
-    background-color: rgb(179, 229, 252);
+    background-color: rgb(173, 193, 120);
+}
+
+/*Buttons*/
+.btn-proceed {
+    background-color: #9BB55F;
+}
+
+.btn-change {
+    background-color: #A98467;
+}
+
+.btn-confirm {
+    background-color: #6B705C;
+    color: #FFFFFF;
+}
+
+.btn-delete {
+    background-color: #C78866;
+}
+
+/*Icons*/
+i {
+    margin-right: 5px;
 }
 
 /*Forms*/
+
+.profile-form {
+    margin-bottom: 30px;
+}
+
+.appointment-form {
+    margin-bottom: 30px; 
+}
 
 /*Create Appointment Form*/
 #no-doctor-message {
@@ -40,3 +72,6 @@ body {
     font-size: 1.2em; 
     margin-top: 10px;
 }
+
+/*Footer*/
+

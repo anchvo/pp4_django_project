@@ -93,15 +93,16 @@ class CreateAppointmentForm(forms.ModelForm):
         empty_label="Select Location",
         required=True
     )
+    # Exclude doctor initially, will be populated dynamically via JavaScript dynamic filtering
+    doctor = forms.ModelChoiceField(
+        queryset=Doctor.objects.none(),
+        required=True
+    )
     appointment_date = forms.DateTimeField(
         widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
         required=True
     )
     additional_info = forms.CharField(widget=forms.Textarea, required=False)
-
-    # Exclude doctor initially, will be populated dynamically via JavaScript dynamic filtering
-    doctor = forms.ModelChoiceField(
-        queryset=Doctor.objects.none(), required=True)
 
     class Meta:
         model = Appointment

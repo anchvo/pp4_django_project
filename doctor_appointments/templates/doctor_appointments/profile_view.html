@@ -13,7 +13,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          <h4>Your Profile</h4>
+          <h4><i class="fa-regular fa-address-card"></i> Your Profile</h4>
         </div>
         <div class="card-body">
           {% if doctor_profile %}
@@ -52,7 +52,7 @@
     <div class="col-md-6">
       <div class="card">
         <div class="card-header">
-          <h4>Your Next Appointment</h4>
+          <h4><i class="fa-regular fa-calendar-check"></i> Your Next Appointment</h4>
         </div>
         <div class="card-body">
           {% if next_appointment %}
@@ -108,15 +108,15 @@
           {% else %}
           <p>You don't have any upcoming appointments.</p>
           {% endif %}
-        </div>
-        <a href="{% url 'view_all_appointments' %}" class="btn btn-primary"
-          >View All Appointments</a
-        ><br />
+          <a href="{% url 'view_all_appointments' %}" class="btn btn-confirm mt-3"
+          ><i class="fa-regular fa-calendar"></i> View All Appointments</a
+        >
         <a
           href="{% url 'view_create_appointment' %}"
-          class="btn btn-primary mt-3"
-          >Create New Appointment</a
+          class="btn btn-confirm mt-3 float-end"
+          ><i class="fa-regular fa-calendar-plus"></i> Create New Appointment</a
         >
+        </div>
       </div>
     </div>
   </div>

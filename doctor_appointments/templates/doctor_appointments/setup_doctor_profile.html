@@ -2,6 +2,8 @@
 {% extends "base.html" %} {% load crispy_forms_tags %} {% block content %}
 
 <!-- Main content starts here -->
+
+<!-- Page Title and Message -->
 <div class="container">
   <div class="row">
     <div class="col-md-8 mt-3 offset-md-2">
@@ -10,11 +12,13 @@
       <p>Additional information following soon</p>
     </div>
   </div>
+
+  <!-- Doctor Profile Setup Form -->
   <div class="row">
     <div class="col-md-8 mt-3 offset-md-2">
-      <form method="post">
+      <form class="profile-form" method="post">
         {% csrf_token %} {{ form | crispy }}
-        <button class="btn btn-secondary" type="submit">Submit</button>
+        <button class="btn btn-confirm" type="submit">Create Profile</button>
       </form>
     </div>
   </div>
