@@ -1,5 +1,10 @@
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+<!-- Load Custon Filters from templatetags/custom_filters.py -->
+{% load custom_filters %}
+
+{% block content %}
 
 <!-- Main content starts here -->
 <div class="container mt-5">
@@ -14,8 +19,7 @@
           {% if doctor_profile %}
           <!-- Doctor Profile -->
           <p>
-            <strong>Name:</strong> {{ doctor_profile.title }} {{
-            doctor_profile.full_name }}
+            <strong>Name:</strong> {{ doctor_profile.title }} {{ doctor_profile.full_name }}
           </p>
           <p><strong>Practice:</strong> {{ doctor_profile.practice_name }}</p>
           <p><strong>Email:</strong> {{ doctor_profile.email }}</p>
@@ -23,7 +27,8 @@
             <strong>Phone Number:</strong> {{ doctor_profile.phone_number }}
           </p>
           <p>
-            <strong>Specialisation:</strong> {{ doctor_profile.specialisation }}
+            <strong>Specialisation:</strong>
+            {{ doctor_profile.specialisations|split:','|join:', ' }}
           </p>
           <p><strong>City:</strong> {{ doctor_profile.city }}</p>
           <p><strong>Address:</strong> {{ doctor_profile.address }}</p>
