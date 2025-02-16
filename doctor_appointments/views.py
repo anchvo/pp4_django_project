@@ -93,8 +93,6 @@ def view_doctor_profile_form(request):
                 location = Location(doctor=doctor, city=form.cleaned_data['city'])
                 location.save()
 
-            doctor.save()
-
             # Save user input specialisations to Specialisation model
             specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
             for spec in specialisations:
@@ -103,8 +101,6 @@ def view_doctor_profile_form(request):
                 if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():  # Check existance of specific entry
                     specialisation = Specialisation(doctor=doctor, specialisation_name=spec)
                     specialisation.save()
-
-            doctor.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
 
@@ -120,8 +116,8 @@ def view_doctor_profile_form(request):
                 }
             )
 
-    else:  # If the request method is GET, display the form (pre-filled if it's an update)
-        form = DoctorProfileForm(instance=doctor)
+    else:  # If the request method is GET, refer back to form
+        form = DoctorProfileForm()
 
     return render(
         request,
