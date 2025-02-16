@@ -222,7 +222,8 @@ def view_create_appointment(request):
     return render(request, 'doctor_appointments/create_appointment.html', {'form': form})
 
 
-# Handle Ajax request for Doctor JS dynamic filtering via JsonResponse
+# Handle Ajax request for Doctor JS dynamic filtering without reloading page
+# JavaScript function triggers this view
 def get_doctors(request):
     specialisation_id = request.GET.get('specialisation')
     location_id = request.GET.get('location')

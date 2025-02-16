@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Function to filter Doctors based on Specialisation and Location
-  // Function triggered by CreateAppointmentForm user input
+  // Function triggered by CreateAppointmentForm user input for Specialisation and Location
   function updateDoctors() {
     var specialisation = document.getElementById(
       "id_doctor_specialisation"
