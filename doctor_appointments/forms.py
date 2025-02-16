@@ -99,7 +99,8 @@ class CreateAppointmentForm(forms.ModelForm):
         required=True
     )
     appointment_date = forms.DateTimeField(
-        widget=forms.DateTimeInput(attrs={'type': 'datetime-local'}),
+        # Ensure DateTime has right format to be able to pick both from it
+        widget=forms.DateTimeInput(format='%Y-%m-%dT%H:%M:%S', attrs={'type': 'datetime-local'}),
         required=True
     )
     additional_info = forms.CharField(widget=forms.Textarea, required=False)

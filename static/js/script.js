@@ -1,4 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
+  // Flatpicker Initialize for appointment_date field
+  flatpickr("#id_appointment_date", {
+    enableTime: true,
+    dateFormat: "Y-m-d H:i", // Date and time format
+    defaultHour: 12, // Default time (optional)
+    defaultMinute: 0, // Default minutes (optional)
+    minuteIncrement: 5, // Allow incrementing by 5 minutes
+    time_24hr: true, // Use 24-hour format
+  });
+
   // Function to filter Doctors based on Specialisation and Location
   // Function triggered by CreateAppointmentForm user input
   function updateDoctors() {
