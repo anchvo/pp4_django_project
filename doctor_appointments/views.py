@@ -8,22 +8,22 @@ from .forms import PatientProfileForm, DoctorProfileForm, CreateAppointmentForm
 from .models import Appointment, Patient, Doctor, Location, Specialisation
 
 
-
 # Create your views here.
 
-# Render Index / Home Page
+
+# Index / Home Page
 def view_index(request):
 
     return render(request, 'doctor_appointments/index.html')
 
 
-# Render Profile Choice Page
+# Profile Choice Page
 def view_profile_choice(request):
 
     return render(request, 'doctor_appointments/profile_choice.html')
 
 
-# Render Setup Patient Profile Form & Page
+# Setup Patient Profile Form & Page
 def view_patient_profile_form(request):
     if request.method == 'POST':
         form = PatientProfileForm(data=request.POST)
@@ -33,7 +33,7 @@ def view_patient_profile_form(request):
             patient.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
-        
+   
         else:
             # If the form is invalid, render form with errors
             return render(
@@ -57,9 +57,9 @@ def view_patient_profile_form(request):
     )
 
 
-# Render Setup Doctor Profile Form & Page
+# Setup Doctor Profile Form & Page
 def view_doctor_profile_form(request):
-    
+
     # Check if Doctor instance already exists to avoid database errors with OneToOne unique User to Doctor relationship
     try:
         doctor = Doctor.objects.get(user=request.user)
@@ -67,7 +67,7 @@ def view_doctor_profile_form(request):
     except Doctor.DoesNotExist:
         doctor = None
         is_update = False
-    
+
     if request.method == 'POST':
         form = DoctorProfileForm(data=request.POST)
         if form.is_valid():
@@ -92,7 +92,7 @@ def view_doctor_profile_form(request):
                 specialisation.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
-        
+
         else:
             print(form.errors)  # Check form errors
             # If the form is invalid, render form with errors
@@ -117,7 +117,7 @@ def view_doctor_profile_form(request):
     )
 
 
-# Render Profile View Page, depending on logged in status as Doctor or Patient
+# Profile View Page, depending on logged in status as Doctor or Patient
 @login_required  # Page only visible to logged in users
 def view_profile_view(request):
 
@@ -162,8 +162,8 @@ def view_profile_view(request):
     return render(request, 'doctor_appointments/profile_view.html', context)
 
 
-# Render Create Appointment Form & Page
-@login_required
+# Create Appointment Form & Page
+@login_required  # Page only visible to logged in users
 def view_create_appointment(request):
     if request.method == 'POST':
         form = CreateAppointmentForm(request.POST)
@@ -196,8 +196,9 @@ def get_doctors(request):
 
     return JsonResponse({'doctors': doctor_data})
 
-# Render Appointment List on Appointments Page
-@login_required
+
+# Appointment List on Appointments Page
+@login_required  # Page only visible to logged in users
 def view_all_appointments(request):
     # Initialize variables for the profiles and appointments
     doctor_profile = None
@@ -233,22 +234,3 @@ def view_all_appointments(request):
     }
 
     return render(request, 'doctor_appointments/all_appointments.html', context)
-
-
-# CURRENTLY STORED CODE RELATING TO URLS AND HTIML !! DELETE ALL IF UNUSED !!
-# Render Appointment List on Appointments Page
-class AppointmentList(generic.ListView):
-    queryset = Appointment.objects.all().order_by('-appointment_date')
-    template_name = "doctor_appointments/appointments.html"
-    paginate_by = 6
-
-
-def view_appointment(request, appointment_id):
-    queryset = Appointment.objects.all()
-    appointment = get_object_or_404(queryset, appointment_id=appointment_id)
-
-    return render(
-        request,
-        "doctor_appointments/view_appointment.html",
-        {"appointment": appointment}
-    )

@@ -7,7 +7,6 @@ urlpatterns = [
     path('appointments/', views.view_all_appointments, name='view_all_appointments'),
     path('create_appointment/', views.view_create_appointment,
          name='view_create_appointment'),
-    path('<int:appointment_id>/', views.view_appointment, name='view_appointment'),
     path('get-doctors/', views.get_doctors, name='get_doctors'),  # JS Ajax Function in views.py
     path('profile_choice/', views.view_profile_choice, name='view_profile_choice'),
     path('profile_view/', views.view_profile_view, name='view_profile_view'),
