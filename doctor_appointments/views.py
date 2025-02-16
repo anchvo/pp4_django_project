@@ -68,24 +68,23 @@ def view_patient_profile_form(request):
 # Setup Doctor Profile Form & Page
 def view_doctor_profile_form(request):
 
-    # Check if Doctor instance already exists to avoid database errors with OneToOne unique User to Doctor relationship
-    try:
-        doctor = Doctor.objects.get(user=request.user)
-        is_update = True  # Track if it's an update to existing profile
-    except Doctor.DoesNotExist:
-        doctor = None
-        is_update = False
+    # Create empty Doctor instance / variable
+    doctor = None
 
     if request.method == 'POST':
         form = DoctorProfileForm(data=request.POST)
         if form.is_valid():
             doctor = form.save(commit=False)
-            doctor.user = request.user  # Assign the logged-in user to the Doctor instance
+            doctor.user = request.user  # Assign the logged in user to the Doctor instance
+
+            # Save Doctor Instance
             doctor.save()
 
             # Save the selected features (checkboxes) as a joined string
             selected_features = ','.join(form.cleaned_data['features'])  # Join selected values as comma-separated string
             doctor.features = selected_features
+
+            # Save Doctor instance with features
             doctor.save()
 
             # Save user input location to Location model 
@@ -93,6 +92,8 @@ def view_doctor_profile_form(request):
             if not location:
                 location = Location(doctor=doctor, city=form.cleaned_data['city'])
                 location.save()
+
+            doctor.save()
 
             # Save user input specialisations to Specialisation model
             specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
@@ -102,6 +103,8 @@ def view_doctor_profile_form(request):
                 if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():  # Check existance of specific entry
                     specialisation = Specialisation(doctor=doctor, specialisation_name=spec)
                     specialisation.save()
+
+            doctor.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
 
@@ -249,4 +252,4 @@ def view_all_appointments(request):
         'appointments': page_obj,
     }
 
-    return render(request, 'doctor_appointments/all_appointments.html', context)
+    return render(request, 'doctor_appointments/appointments.html', context)
