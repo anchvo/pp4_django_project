@@ -253,3 +253,10 @@ def view_all_appointments(request):
     }
 
     return render(request, 'doctor_appointments/appointments.html', context)
+
+
+# Edit Appointment
+@login_required
+def view_edit_appointment(request):
+
+    return render(request, 'doctor_appointments/index.html')

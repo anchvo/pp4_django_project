@@ -4,6 +4,7 @@ from django import forms
 from .models import Patient, Doctor, Appointment, Location, Specialisation
 
 
+# Patient Profile
 class PatientProfileForm(forms.ModelForm):
     # Set validator for phone number to ensure correct format
     phone_number_validator = RegexValidator(
@@ -28,6 +29,7 @@ class PatientProfileForm(forms.ModelForm):
         fields = ('full_name', 'email', 'phone_number', 'preferred_contact',)
 
 
+# Doctor Profile
 class DoctorProfileForm(forms.ModelForm):
     # Set validator for phone number to ensure correct format
     phone_number_validator = RegexValidator(
@@ -88,6 +90,7 @@ class DoctorProfileForm(forms.ModelForm):
         return specialisations_list
 
 
+# Create Appointment
 class CreateAppointmentForm(forms.ModelForm):
 
     doctor_specialisation = forms.ModelChoiceField(
@@ -114,3 +117,7 @@ class CreateAppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['doctor_specialisation', 'doctor_location',
                   'appointment_date', 'additional_info']
+        
+
+# Edit Appointment
+
