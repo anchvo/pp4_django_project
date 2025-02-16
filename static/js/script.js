@@ -1,4 +1,3 @@
-// Ensure Script runs after the DOM is fully loaded but before DOM manipulations
 document.addEventListener("DOMContentLoaded", function () {
   // Function to filter Doctors based on Specialisation and Location
   // Function triggered by CreateAppointmentForm user input
