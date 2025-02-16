@@ -26,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         .then((data) => {
           var doctorSelect = document.getElementById("id_doctor");
           doctorSelect.innerHTML = ""; // Clear existing options
+
+          // Default option
           var defaultOption = document.createElement("option");
           defaultOption.text = "Select Doctor";
           doctorSelect.appendChild(defaultOption);
@@ -42,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Dynamically populate the Doctor option
             data.doctors.forEach((doctor) => {
               var option = document.createElement("option");
-              option.value = doctor.id;
+              option.value = doctor.id;  // Set doctor id as value
               option.text = doctor.full_name;
               doctorSelect.appendChild(option);
             });

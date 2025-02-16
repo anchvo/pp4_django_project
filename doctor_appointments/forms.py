@@ -100,7 +100,8 @@ class CreateAppointmentForm(forms.ModelForm):
     )
     appointment_date = forms.DateTimeField(
         # Ensure DateTime has right format to be able to pick both from it
-        widget=forms.DateTimeInput(format='%Y-%m-%dT%H:%M:%S', attrs={'type': 'datetime-local'}),
+        widget=forms.DateTimeInput(
+            format='%Y-%m-%dT%H:%M:%S', attrs={'type': 'datetime-local'}),
         required=True
     )
     additional_info = forms.CharField(widget=forms.Textarea, required=False)
@@ -109,7 +110,27 @@ class CreateAppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['doctor_specialisation', 'doctor_location',
                   'appointment_date', 'additional_info']
-        
+
+    # New
+    def clean_doctor(self):
+        doctor = self.cleaned_data.get('doctor')
+        specialisation = self.cleaned_data.get('doctor_specialisation')
+        location = self.cleaned_data.get('doctor_location')
+
+        # Validate that the doctor selected matches the chosen specialisation and location
+        if doctor:
+            # Ensure the doctor's specialisation matches
+            if specialisation and specialisation.specialisation_name not in doctor.specialisations:
+                raise forms.ValidationError(
+                    'The selected doctor does not match the chosen specialisation.')
+
+        # Ensure the doctor's location matches
+        if location and doctor.location:
+            if doctor.location.city != location.city:
+                raise forms.ValidationError(
+                    'The selected doctor does not match the chosen location.')
+
+        return doctor
+
 
 # Edit Appointment
-

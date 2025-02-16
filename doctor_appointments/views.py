@@ -39,8 +39,10 @@ def view_patient_profile_form(request):
             patient.user = request.user  # Assign the logged-in user to the Patient instance
             patient.save()
 
-            messages.success(request, "Your patient profile has been created successfully!")
-            return redirect('view_profile_view')  # Redirects to User Profile View
+            messages.success(
+                request, "Your patient profile has been created successfully!")
+            # Redirects to User Profile View
+            return redirect('view_profile_view')
 
         else:
             # If the form is invalid, render form with errors
@@ -81,20 +83,24 @@ def view_doctor_profile_form(request):
             doctor.save()
 
             # Save the selected features (checkboxes) as a joined string
-            selected_features = ','.join(form.cleaned_data['features'])  # Join selected values as comma-separated string
+            # Join selected values as comma-separated string
+            selected_features = ','.join(form.cleaned_data['features'])
             doctor.features = selected_features
 
             # Save Doctor instance with features
             doctor.save()
 
-            # Save user input location to Location model 
-            location = Location.objects.filter(doctor=doctor).first()  # Check if location already exists / retrieve object
+            # Save user input location to Location model
+            # Check if location already exists / retrieve object
+            location = Location.objects.filter(doctor=doctor).first()
             if not location:
-                location = Location(doctor=doctor, city=form.cleaned_data['city'])
+                location = Location(
+                    doctor=doctor, city=form.cleaned_data['city'])
                 location.save()
 
             # Save user input specialisations to Specialisation model
-            specialisations = form.cleaned_data['specialisations']  # Cleaned & validated list separated by commas
+            # Cleaned & validated list separated by commas
+            specialisations = form.cleaned_data['specialisations']
 
             # Save specialisations as a comma-separated string in the Doctor model
             doctor.specialisations = ', '.join(specialisations)
@@ -103,11 +109,14 @@ def view_doctor_profile_form(request):
             for spec in specialisations:
                 spec = spec.strip()  # Clean extra spaces
                 # Ensure the specialisation doesn't exist already for this doctor / Avoid duplicates
-                if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():  # Check existance of specific entry
-                    specialisation = Specialisation(doctor=doctor, specialisation_name=spec)
+                # Check existance of specific entry
+                if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():
+                    specialisation = Specialisation(
+                        doctor=doctor, specialisation_name=spec)
                     specialisation.save()
 
-            return redirect('view_profile_view')  # Redirects to User Profile View
+            # Redirects to User Profile View
+            return redirect('view_profile_view')
 
         else:
             print(form.errors)  # Check form errors
@@ -159,9 +168,11 @@ def view_profile_view(request):
     # Fetch Appointments & filter for next date / Ensure they only see their own profile data
     appointments = []
     if doctor_profile:
-        appointments = Appointment.objects.filter(doctor=doctor_profile).filter(appointment_date__gte=timezone.now()).order_by('appointment_date')
+        appointments = Appointment.objects.filter(doctor=doctor_profile).filter(
+            appointment_date__gte=timezone.now()).order_by('appointment_date')
     elif patient_profile:
-        appointments = Appointment.objects.filter(patient=patient_profile).filter(appointment_date__gte=timezone.now()).order_by('appointment_date')
+        appointments = Appointment.objects.filter(patient=patient_profile).filter(
+            appointment_date__gte=timezone.now()).order_by('appointment_date')
 
     # Get the next upcoming appointment (if exists)
     next_appointment = appointments.first() if appointments else None
@@ -181,17 +192,32 @@ def view_profile_view(request):
 # Create Appointment Form & Page
 @login_required  # Page only visible to logged in users
 def view_create_appointment(request):
+
     if request.method == 'POST':
         form = CreateAppointmentForm(request.POST)
         if form.is_valid():
-            # Save new appointment with current patient
+            # Save new appointment with the current patient
             appointment = form.save(commit=False)
             patient = Patient.objects.get(user=request.user)
-            appointment.patient = patient  # Set patient as logged in user
+            appointment.patient = patient  # Set patient as the logged-in user
             appointment.save()
-            return redirect('profile_view')  # Redirect to the profile view after successful creation
+            # Redirect to the profile view after successful creation
+            return redirect('profile_view')
     else:
+        # Ddoctors are filtered based on the selected specialisation and location
+        specialisation_id = request.GET.get('specialisation', None)
+        location_id = request.GET.get('location', None)
+
+        # Initialize the form
         form = CreateAppointmentForm()
+
+        # If specialisation and location are provided in the GET parameters, filter the doctors
+        if specialisation_id and location_id:
+            doctors = Doctor.objects.filter(
+                specialisations__specialisation_name__icontains=specialisation_id,  # Use contains for flexible matching
+                location__city__icontains=location_id  # Use city to filter location
+            )
+            form.fields['doctor'].queryset = doctors  # Update the form's doctor queryset based on the filter
 
     return render(request, 'doctor_appointments/create_appointment.html', {'form': form})
 
@@ -205,14 +231,23 @@ def get_doctors(request):
     if not specialisation_id or not location_id:
         return JsonResponse({'doctors': []})
 
-    # Filter doctors by specialisation and location
+    # Fetch the name of the specialisation based on the id passed in the GET request
+    try:
+        specialisation = Specialisation.objects.get(id=specialisation_id)
+    except Specialisation.DoesNotExist:
+        # Return empty if the specialisation doesn't exist
+        return JsonResponse({'doctors': []})
+
+    # Filter doctors by matching specialisation name (from specialisations field) and location
     doctors = Doctor.objects.filter(
-        specialisation__id=specialisation_id,
-        location__id=location_id
+        location__id=location_id,  # Filter by location ForeignKey
+        # Match against 'specialisations' field (CharField)
+        specialisations__icontains=specialisation.specialisation_name
     )
 
     # Create a list of doctors to return in the JSON response
-    doctor_data = [{'id': doctor.id, 'full_name': doctor.full_name} for doctor in doctors]
+    doctor_data = [{'id': doctor.id, 'full_name': doctor.full_name}
+                   for doctor in doctors]
 
     return JsonResponse({'doctors': doctor_data})
 
@@ -223,7 +258,8 @@ def view_all_appointments(request):
     # Initialize variables for the profiles and appointments
     doctor_profile = None
     patient_profile = None
-    appointments = Appointment.objects.none()  # Start with an empty queryset to avoid NoneType errors
+    # Start with an empty queryset to avoid NoneType errors
+    appointments = Appointment.objects.none()
 
     # Ensure logged in users can only access their own profile
 
@@ -240,9 +276,11 @@ def view_all_appointments(request):
 
     # Fetch the appointments / Ensure they only see their own profile data
     if doctor_profile:
-        appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('appointment_date')
+        appointments = Appointment.objects.filter(
+            doctor=doctor_profile).order_by('appointment_date')
     elif patient_profile:
-        appointments = Appointment.objects.filter(patient=patient_profile).order_by('appointment_date')
+        appointments = Appointment.objects.filter(
+            patient=patient_profile).order_by('appointment_date')
 
     # Paginate the appointments
     paginator = Paginator(appointments, 6)  # Show 6 appointments per page
