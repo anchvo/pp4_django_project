@@ -17,9 +17,7 @@
             <strong>Name:</strong>{{ doctor_profile.title }} {{
             doctor_profile.full_name }}
           </p>
-          <p>
-            <strong>Practice:</strong> {{ doctor_profile.practice_name }}
-          </p>
+          <p><strong>Practice:</strong> {{ doctor_profile.practice_name }}</p>
           <p><strong>Email:</strong> {{ doctor_profile.email }}</p>
           <p>
             <strong>Phone Number:</strong> {{ doctor_profile.phone_number }}
@@ -56,24 +54,60 @@
           {% if next_appointment %}
           <strong>Appointment Date:</strong> {{
           appointment.appointment_date|date:"F j, Y, g:i a" }}<br />
-          {% if doctor_profile %}
-          <strong>Patient:</strong> {{ appointment.patient.full_name }}<br />
-          <strong>Specialisation:</strong> {{ appointment.doctor_specialisation
-          }}<br />
-          <strong>Location:</strong> {{ appointment.doctor_location }}<br />
-          {% else %}
-          <strong>Doctor:</strong>{{ appointment.doctor.full_name }}<br />
-          <strong>Specialisation:</strong> {{ appointment.doctor_specialisation
-          }}<br />
-          <strong>Location:</strong> {{ appointment.doctor_location }}<br />
+          {% if patient_profile %}
+          <!-- If user is a Patient -->
+          <p>
+            <strong>Doctor:</strong>{{ next_appointment.doctor.title }} {{ next_appointment.doctor.full_name }}
+          </p>
+          <p>
+            <strong>Practice:</strong> {{
+            next_appointment.doctor.practice_name }}
+          </p>
+          <p>
+            <strong>Specialisation:</strong> {{
+            next_appointment.doctor_specialisation.specialisation_name }}
+          </p>
+          <p><strong>Address:</strong> {{ next_appointment.doctor.address }}</p>
+          <p>
+            <strong>Location:</strong> {{ next_appointment.doctor_location.city
+            }}
+          </p>
+          <p>
+            <strong>Email:</strong> {{ next_appointment.doctor_location.email
+            }}
+          </p>
+          <p>
+            <strong>Phone Number:</strong> {{ next_appointment.doctor_location.phone_number
+            }}
+          </p>
+          <p>
+            <strong>Features:</strong> {{ next_appointment.doctor.features }}
+          </p>
+          {% elif doctor_profile %}
+          <!-- If user is a Doctor -->
+          <p>
+            <strong>Patient:</strong> {{ next_appointment.patient.full_name }}
+          </p>
+          <strong>Patient Email:</strong> {{ next_appointment.patient.email }}
+          </p>
+          <strong>Patient Phone Number:</strong> {{ next_appointment.patient.phone_number }}
+          </p>
+          <p>
+            <strong>Location:</strong> {{ next_appointment.doctor_location.city
+            }}
+          </p>
           {% endif %}
-          <strong>Additional Information:</strong> {{
-          appointment.additional_info }}<br />
+          <p>
+            <strong>Additional Information:</strong> {{
+            next_appointment.additional_info }}
+          </p>
           {% else %}
-          <p>You don't have any appointments scheduled yet.</p>
+          <p>You don't have any upcoming appointments.</p>
           {% endif %}
         </div>
-        <a href="{% url 'all_appointments' %}" class="btn btn-primary">View All Appointments</a><br>
+        <a href="{% url 'view_all_appointments' %}" class="btn btn-primary"
+          >View All Appointments</a
+        ><br />
         <a
           href="{% url 'view_create_appointment' %}"
           class="btn btn-primary mt-3"
