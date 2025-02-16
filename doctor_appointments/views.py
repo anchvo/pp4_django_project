@@ -1,10 +1,12 @@
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.views import generic
-from .models import Appointment, Patient, Doctor, Location, Specialisation
 from .forms import PatientProfileForm, DoctorProfileForm, CreateAppointmentForm
+from .models import Appointment, Patient, Doctor, Location, Specialisation
+
 
 
 # Create your views here.
@@ -154,12 +156,13 @@ def view_profile_view(request):
         'doctor_profile': doctor_profile,
         'patient_profile': patient_profile,
         'next_appointment': next_appointment,
+        'appointments': appointments,
     }
 
     return render(request, 'doctor_appointments/profile_view.html', context)
 
 
-# Render Create Appointment Form & HTML Page
+# Render Create Appointment Form & Page
 @login_required
 def view_create_appointment(request):
     if request.method == 'POST':
@@ -192,6 +195,44 @@ def get_doctors(request):
     doctor_data = [{'id': doctor.id, 'full_name': doctor.full_name} for doctor in doctors]
 
     return JsonResponse({'doctors': doctor_data})
+
+# Render Appointment List on Appointments Page
+@login_required
+def view_all_appointments(request):
+    # Initialize variables for the profiles and appointments
+    doctor_profile = None
+    patient_profile = None
+    appointments = None
+
+    # Ensure logged in users can only access their own profile
+
+    # Check for Doctor or Patient profile
+    try:
+        doctor_profile = Doctor.objects.get(user=request.user)
+        patient_profile = None  # Ensure patient_profile is None if it's a doctor
+    except Doctor.DoesNotExist:
+        doctor_profile = None
+        try:
+            patient_profile = Patient.objects.get(user=request.user)
+        except Patient.DoesNotExist:
+            patient_profile = None
+
+    # Fetch the appointments / Ensure they only see their own profile data
+    if doctor_profile:
+        appointments = Appointment.objects.filter(doctor=doctor_profile).order_by('appointment_date')
+    elif patient_profile:
+        appointments = Appointment.objects.filter(patient=patient_profile).order_by('appointment_date')
+
+    # Paginate the appointments
+    paginator = Paginator(appointments, 6)  # Show 6 appointments per page
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        'appointments': page_obj,
+    }
+
+    return render(request, 'doctor_appointments/all_appointments.html', context)
 
 
 # CURRENTLY STORED CODE RELATING TO URLS AND HTIML !! DELETE ALL IF UNUSED !!
