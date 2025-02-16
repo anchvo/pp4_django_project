@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse, Http404
@@ -25,6 +26,12 @@ def view_profile_choice(request):
 
 # Setup Patient Profile Form & Page
 def view_patient_profile_form(request):
+    # Check if the user already has a patient profile
+    if hasattr(request.user, 'patient'):
+        # If the user already has a patient profile, redirect to the profile view
+        messages.info(request, "You already have a patient profile.")
+        return redirect('view_profile_view')
+
     if request.method == 'POST':
         form = PatientProfileForm(data=request.POST)
         if form.is_valid():
@@ -32,8 +39,9 @@ def view_patient_profile_form(request):
             patient.user = request.user  # Assign the logged-in user to the Patient instance
             patient.save()
 
+            messages.success(request, "Your patient profile has been created successfully!")
             return redirect('view_profile_view')  # Redirects to User Profile View
-   
+
         else:
             # If the form is invalid, render form with errors
             return render(
@@ -81,15 +89,19 @@ def view_doctor_profile_form(request):
             doctor.save()
 
             # Save user input location to Location model 
-            location = Location(doctor=doctor, city=form.cleaned_data['city'])
-            location.save()
+            location = Location.objects.filter(doctor=doctor).first()  # Check if location already exists / retrieve object
+            if not location:
+                location = Location(doctor=doctor, city=form.cleaned_data['city'])
+                location.save()
 
             # Save user input specialisations to Specialisation model
             specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
             for spec in specialisations:
                 spec = spec.strip()  # Clean extra spaces
-                specialisation = Specialisation(doctor=doctor, specialisations=spec)
-                specialisation.save()
+                # Ensure the specialisation doesn't exist already for this doctor / Avoid duplicates
+                if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():  # Check existance of specific entry
+                    specialisation = Specialisation(doctor=doctor, specialisation_name=spec)
+                    specialisation.save()
 
             return redirect('view_profile_view')  # Redirects to User Profile View
 
