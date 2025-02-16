@@ -30,3 +30,13 @@ body {
     border: none;
     background-color: rgb(179, 229, 252);
 }
+
+/*Forms*/
+
+/*Create Appointment Form*/
+#no-doctor-message {
+    display: none; 
+    color: red; 
+    font-size: 1.2em; 
+    margin-top: 10px;
+}

@@ -197,6 +197,10 @@ def get_doctors(request):
     specialisation_id = request.GET.get('specialisation')
     location_id = request.GET.get('location')
 
+    # If specialisation or location are not selected, return an empty list
+    if not specialisation_id or not location_id:
+        return JsonResponse({'doctors': []})
+
     # Filter doctors by specialisation and location
     doctors = Doctor.objects.filter(
         specialisation__id=specialisation_id,

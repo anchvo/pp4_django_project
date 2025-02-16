@@ -1,6 +1,7 @@
 console.log("Test, that collecting static files works");
 
 // Function to filter Doctors based on Specialisation and Location
+// Function triggered by CreateAppointmentForm user input
 function updateDoctors() {
     var specialisation = document.getElementById("id_doctor_specialisation").value;
     var location = document.getElementById("id_doctor_location").value;
@@ -16,12 +17,22 @@ function updateDoctors() {
                 defaultOption.text = "Select Doctor";
                 doctorSelect.appendChild(defaultOption);
 
-                data.doctors.forEach(doctor => {
-                    var option = document.createElement('option');
-                    option.value = doctor.id;
-                    option.text = doctor.full_name;
-                    doctorSelect.appendChild(option);
-                });
+                // If no doctors are available, show a message
+                if (data.doctors.length === 0) {
+                    document.getElementById("no-doctor-message").style.display = "block";  // Show message
+                    doctorSelect.disabled = true;  // Disable the dropdown
+                } else {
+                    document.getElementById("no-doctor-message").style.display = "none";  // Hide message
+                    doctorSelect.disabled = false;  // Enable the dropdown
+
+                    // Dynamically populate the Doctor option
+                    data.doctors.forEach(doctor => {
+                        var option = document.createElement('option');
+                        option.value = doctor.id;
+                        option.text = doctor.full_name;
+                        doctorSelect.appendChild(option);
+                    });
+                }
             });
     }
 }
