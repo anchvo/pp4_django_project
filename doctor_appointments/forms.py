@@ -77,16 +77,6 @@ class DoctorProfileForm(forms.ModelForm):
             raise ValidationError(
                 'Please enter at least one valid specialisation.')
 
-        # Create Specialisation objects for each cleaned and validated specialisation
-        for spec_name in specialisations_list:
-            # Check if specialisation already exists
-            if not Specialisation.objects.filter(doctor=self.instance, specialisation_name=spec_name).exists():
-                # Create and save Specialisation instance
-                Specialisation.objects.create(
-                    doctor=self.instance,  # Use the current Doctor instance
-                    specialisation_name=spec_name  # Save the specialisation name
-                )
-
         return specialisations_list
 
 

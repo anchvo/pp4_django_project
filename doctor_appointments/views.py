@@ -94,7 +94,7 @@ def view_doctor_profile_form(request):
                 location.save()
 
             # Save user input specialisations to Specialisation model
-            specialisations = form.cleaned_data['specialisations'].split(',')  # Splitting by comma-separated list
+            specialisations = form.cleaned_data['specialisations']  # Cleaned & validated list separated by commas
             for spec in specialisations:
                 spec = spec.strip()  # Clean extra spaces
                 # Ensure the specialisation doesn't exist already for this doctor / Avoid duplicates
