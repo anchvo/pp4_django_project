@@ -4,66 +4,83 @@
 <!-- Main content starts here -->
 <div class="container mt-5">
   <div class="row">
-      <!-- Profile Card -->
-      <div class="col-md-6">
-          <div class="card">
-              <div class="card-header">
-                  <h4>Your Profile</h4>
-              </div>
-              <div class="card-body">
-                  {% if doctor_profile %}
-                      <!-- Doctor Profile -->
-                      <p><strong>Name:</strong>{{ doctor_profile.title }} {{ doctor_profile.full_name }}</p>
-                      <p><strong>Practice Name:</strong> {{ doctor_profile.practice_name }}</p>
-                      <p><strong>Email:</strong> {{ doctor_profile.email }}</p>
-                      <p><strong>Phone Number:</strong> {{ doctor_profile.phone_number }}</p>
-                      <p><strong>Specialisation:</strong> {{ doctor_profile.specialisation }}</p>
-                      <p><strong>City:</strong> {{ doctor_profile.city }}</p>
-                      <p><strong>Address:</strong> {{ doctor_profile.address }}</p>
-                      <p><strong>Features:</strong> {{ doctor_profile.features }}</p>
-                  {% elif patient_profile %}
-                      <!-- Patient Profile -->
-                      <p><strong>Full Name:</strong> {{ patient_profile.full_name }}</p>
-                      <p><strong>Email:</strong> {{ patient_profile.email }}</p>
-                      <p><strong>Phone Number:</strong> {{ patient_profile.phone_number }}</p>
-                      <p><strong>Preferred Contact:</strong> {{ patient_profile.preferred_contact }}</p>
-                  {% endif %}
-              </div>
-          </div>
+    <!-- Profile Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Your Profile</h4>
+        </div>
+        <div class="card-body">
+          {% if doctor_profile %}
+          <!-- Doctor Profile -->
+          <p>
+            <strong>Name:</strong>{{ doctor_profile.title }} {{
+            doctor_profile.full_name }}
+          </p>
+          <p>
+            <strong>Practice:</strong> {{ doctor_profile.practice_name }}
+          </p>
+          <p><strong>Email:</strong> {{ doctor_profile.email }}</p>
+          <p>
+            <strong>Phone Number:</strong> {{ doctor_profile.phone_number }}
+          </p>
+          <p>
+            <strong>Specialisation:</strong> {{ doctor_profile.specialisation }}
+          </p>
+          <p><strong>City:</strong> {{ doctor_profile.city }}</p>
+          <p><strong>Address:</strong> {{ doctor_profile.address }}</p>
+          <p><strong>Features:</strong> {{ doctor_profile.features }}</p>
+          {% elif patient_profile %}
+          <!-- Patient Profile -->
+          <p><strong>Full Name:</strong> {{ patient_profile.full_name }}</p>
+          <p><strong>Email:</strong> {{ patient_profile.email }}</p>
+          <p>
+            <strong>Phone Number:</strong> {{ patient_profile.phone_number }}
+          </p>
+          <p>
+            <strong>Preferred Contact:</strong> {{
+            patient_profile.preferred_contact }}
+          </p>
+          {% endif %}
+        </div>
       </div>
+    </div>
 
-      <!-- Appointments Card -->
-      <div class="col-md-6">
-          <div class="card">
-              <div class="card-header">
-                  <h4>Your Appointments</h4>
-              </div>
-              <div class="card-body">
-                  {% if appointments %}
-                      <ul class="list-group">
-                          {% for appointment in appointments %}
-                              <li class="list-group-item">
-                                  <strong>Appointment Date:</strong> {{ appointment.appointment_date }}<br>
-                                  {% if doctor_profile %}
-                                      <strong>Patient:</strong> {{ appointment.patient.full_name }}<br>
-                                      <strong>Specialisation:</strong> {{ appointment.doctor_specialisation }}<br>
-                                      <strong>Location:</strong> {{ appointment.doctor_location }}<br>
-                                  {% else %}
-                                      <strong>Doctor:</strong> {{ appointment.doctor.full_name }}<br>
-                                      <strong>Specialisation:</strong> {{ appointment.doctor_specialisation }}<br>
-                                      <strong>Location:</strong> {{ appointment.doctor_location }}<br>
-                                  {% endif %}
-                                  <strong>Additional Information:</strong> {{ appointment.additional_info }}<br>
-                              </li>
-                          {% endfor %}
-                      </ul>
-                  {% else %}
-                      <p>You don't have any appointments scheduled yet.</p>
-                  {% endif %}
-              </div>
-              <a href="{% url 'view_create_appointment' %}" class="btn btn-primary mt-3">Create New Appointment</a>
-          </div>
+    <!-- Appointments Card -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4>Your Next Appointment</h4>
+        </div>
+        <div class="card-body">
+          {% if next_appointment %}
+          <strong>Appointment Date:</strong> {{
+          appointment.appointment_date|date:"F j, Y, g:i a" }}<br />
+          {% if doctor_profile %}
+          <strong>Patient:</strong> {{ appointment.patient.full_name }}<br />
+          <strong>Specialisation:</strong> {{ appointment.doctor_specialisation
+          }}<br />
+          <strong>Location:</strong> {{ appointment.doctor_location }}<br />
+          {% else %}
+          <strong>Doctor:</strong>{{ appointment.doctor.full_name }}<br />
+          <strong>Specialisation:</strong> {{ appointment.doctor_specialisation
+          }}<br />
+          <strong>Location:</strong> {{ appointment.doctor_location }}<br />
+          {% endif %}
+          <strong>Additional Information:</strong> {{
+          appointment.additional_info }}<br />
+          {% else %}
+          <p>You don't have any appointments scheduled yet.</p>
+          {% endif %}
+        </div>
+        <a href="{% url 'all_appointments' %}" class="btn btn-primary">View All Appointments</a><br>
+        <a
+          href="{% url 'view_create_appointment' %}"
+          class="btn btn-primary mt-3"
+          >Create New Appointment</a
+        >
       </div>
+    </div>
   </div>
 </div>
 {% endblock %}

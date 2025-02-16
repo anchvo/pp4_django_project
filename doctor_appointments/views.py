@@ -1,6 +1,7 @@
 from django.http import HttpResponse, JsonResponse, Http404
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.views import generic
 from .models import Appointment, Patient, Doctor, Location, Specialisation
 from .forms import PatientProfileForm, DoctorProfileForm, CreateAppointmentForm
@@ -122,6 +123,7 @@ def view_profile_view(request):
     doctor_profile = None
     patient_profile = None
     appointments = None
+    next_appointment = None
 
     # Ensure logged in users can only access their own profile
 
@@ -136,19 +138,22 @@ def view_profile_view(request):
         except Patient.DoesNotExist:
             patient_profile = None
 
-    # Fetch Appointments related to user profile / Ensure they only see their own profile
+    # Fetch Appointments & filter for next date / Ensure they only see their own profile data
     appointments = []
     if doctor_profile:
-        appointments = Appointment.objects.filter(doctor=doctor_profile)
+        appointments = Appointment.objects.filter(doctor=doctor_profile).filter(appointment_date__gte=timezone.now()).order_by('appointment_date')
     elif patient_profile:
-        appointments = Appointment.objects.filter(patient=patient_profile)
+        appointments = Appointment.objects.filter(patient=patient_profile).filter(appointment_date__gte=timezone.now()).order_by('appointment_date')
+
+    # Get the next upcoming appointment (if exists)
+    next_appointment = appointments.first() if appointments else None
 
     # Pass context data
 
     context = {
         'doctor_profile': doctor_profile,
         'patient_profile': patient_profile,
-        'appointments': appointments,
+        'next_appointment': next_appointment,
     }
 
     return render(request, 'doctor_appointments/profile_view.html', context)
