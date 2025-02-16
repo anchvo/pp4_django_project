@@ -13,8 +13,7 @@
               <div class="card-body">
                   {% if doctor_profile %}
                       <!-- Doctor Profile -->
-                      <p><strong>Full Name:</strong> {{ doctor_profile.full_name }}</p>
-                      <p><strong>Title:</strong> {{ doctor_profile.title }}</p>
+                      <p><strong>Name:</strong>{{ doctor_profile.title }} {{ doctor_profile.full_name }}</p>
                       <p><strong>Practice Name:</strong> {{ doctor_profile.practice_name }}</p>
                       <p><strong>Email:</strong> {{ doctor_profile.email }}</p>
                       <p><strong>Phone Number:</strong> {{ doctor_profile.phone_number }}</p>
@@ -55,7 +54,6 @@
                                       <strong>Location:</strong> {{ appointment.doctor_location }}<br>
                                   {% endif %}
                                   <strong>Additional Information:</strong> {{ appointment.additional_info }}<br>
-                                  <strong>Status:</strong> {{ appointment.status }}
                               </li>
                           {% endfor %}
                       </ul>

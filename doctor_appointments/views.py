@@ -1,5 +1,5 @@
-from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse, Http404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views import generic
 from .models import Appointment, Patient, Doctor, Location, Specialisation
@@ -123,32 +123,33 @@ def view_profile_view(request):
     patient_profile = None
     appointments = None
 
-    # Check if logged in user is a Doctor
+    # Ensure logged in users can only access their own profile
+
+    # Check for Doctor or Patient profile
     try:
         doctor_profile = Doctor.objects.get(user=request.user)
+        patient_profile = None  # Ensure patient_profile is None if it's a doctor
     except Doctor.DoesNotExist:
         doctor_profile = None
+        try:
+            patient_profile = Patient.objects.get(user=request.user)
+        except Patient.DoesNotExist:
+            patient_profile = None
 
-    # Check if logged in user is a Patient
-    try:
-        patient_profile = Patient.objects.get(user=request.user)
-    except Patient.DoesNotExist:
-        patient_profile = None
-
-    # If logged in user is a Doctor, fetch their appointments
+    # Fetch Appointments related to user profile / Ensure they only see their own profile
+    appointments = []
     if doctor_profile:
         appointments = Appointment.objects.filter(doctor=doctor_profile)
-
-    # If logged in user is a Patient, fetch their appointments
-    if patient_profile:
+    elif patient_profile:
         appointments = Appointment.objects.filter(patient=patient_profile)
+
+    # Pass context data
 
     context = {
         'doctor_profile': doctor_profile,
         'patient_profile': patient_profile,
         'appointments': appointments,
     }
-
 
     return render(request, 'doctor_appointments/profile_view.html', context)
 
