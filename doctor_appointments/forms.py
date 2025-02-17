@@ -21,7 +21,7 @@ class PatientProfileForm(forms.ModelForm):
         max_length=254, help_text="Please enter your email address.")
     phone_number = forms.CharField(
         max_length=30,
-        validators=[phone_number_validator], help_text="Please enter your phone number.")
+        validators=[phone_number_validator], help_text="Please enter your phone number, e.g. 123-456-7890, (123) 456-7890.")
     preferred_contact = forms.ChoiceField(
         choices=CHOICES, help_text="Please let us know how you want to be contacted if something happens.")
 
@@ -51,7 +51,7 @@ class DoctorProfileForm(forms.ModelForm):
         max_length=254, help_text="Please enter your email address.")
     phone_number = forms.CharField(
         max_length=30,
-        validators=[phone_number_validator], help_text="Please enter your phone number.")
+        validators=[phone_number_validator], help_text="Please enter your phone number, e.g. 123-456-7890, (123) 456-7890.")
     specialisations = forms.CharField(
         max_length=200, help_text="Please enter your specialisations separated by commas e.g. Cardiology")
     city = forms.CharField(max_length=200, help_text="Please enter your city.")
@@ -87,31 +87,39 @@ class CreateAppointmentForm(forms.ModelForm):
     doctor_specialisation = forms.ModelChoiceField(
         queryset=Specialisation.objects.all(),
         empty_label="Select Specialisation",
-        required=True
+        required=True,
+        help_text="Please select the Specialisation you need."
     )
     doctor_location = forms.ModelChoiceField(
         queryset=Location.objects.all(),
         empty_label="Select Location",
-        required=True
+        required=True,
+        help_text="Please choose a city that fits your criteria"
     )
     # Exclude doctor initially, will be populated dynamically via JavaScript dynamic filtering
     doctor = forms.ModelChoiceField(
         queryset=Doctor.objects.none(),
-        required=True
+        required=True,
+        help_text="Please choose one from the available Doctors."
     )
     appointment_date = forms.DateTimeField(
         # Ensure DateTime has right format to be able to pick both from it
         widget=forms.DateTimeInput(
             format='%Y-%m-%dT%H:%M:%S', attrs={'type': 'datetime-local'}),
-        required=True
+        required=True,
+        help_text="Please choose your appointment date and time."
     )
-    additional_info = forms.CharField(widget=forms.Textarea, required=False)
+    additional_info = forms.CharField(
+        widget=forms.Textarea,
+        required=False,
+        help_text="You can add additional information here, like details about your appointment or a medication plan."
+    )
 
     class Meta:
         model = Appointment
         fields = ['doctor_specialisation', 'doctor_location',
                   'appointment_date', 'additional_info']
-        
+
     # Validate user input for Date / Time is not in the past
     def clean_appointment_date(self):
         appointment_date = self.cleaned_data.get('appointment_date')
@@ -121,7 +129,8 @@ class CreateAppointmentForm(forms.ModelForm):
 
         # Check if the selected date is in the past
         if appointment_date < current_time:
-            raise ValidationError('The appointment date cannot be in the past.')
+            raise ValidationError(
+                'The appointment date cannot be in the past.')
 
         return appointment_date
 
@@ -134,7 +143,8 @@ class CreateAppointmentForm(forms.ModelForm):
         # For editing Appointments
         # Skip validation if the form is being used to edit an existing appointment
         if self.instance.pk:
-            return doctor  # Return the doctor without any validation if it's an edit.
+            # Return the doctor without any validation if it's an edit.
+            return doctor
 
         # For new Appointments
         # Validate that the doctor selected matches the chosen specialisation and location
@@ -151,4 +161,3 @@ class CreateAppointmentForm(forms.ModelForm):
                     'The selected doctor does not match the chosen location.')
 
         return doctor
-
