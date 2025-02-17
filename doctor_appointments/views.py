@@ -202,7 +202,7 @@ def view_create_appointment(request):
             appointment.patient = patient  # Set patient as the logged-in user
             appointment.save()
             # Redirect to the profile view after successful creation
-            return redirect('view_profile_view')
+            return redirect('view_all_appointments')
     else:
         # Ddoctors are filtered based on the selected specialisation and location
         specialisation_id = request.GET.get('specialisation', None)
@@ -289,6 +289,8 @@ def view_all_appointments(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
+        'doctor_profile': doctor_profile,
+        'patient_profile': patient_profile,
         'appointments': page_obj,
     }
 
@@ -313,7 +315,7 @@ def view_edit_appointment(request, appointment_id):
         if form.is_valid():
             # Save the updated appointment
             form.save()
-            return redirect('view_profile_view')  # Redirect to profile view
+            return redirect('view_all_appointments')  # Redirect to profile view
     else:
         # For GET request, pass the existing appointment data to the form
         form = CreateAppointmentForm(instance=appointment)
