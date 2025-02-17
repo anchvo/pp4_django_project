@@ -1,10 +1,13 @@
 <!-- Set up as main home page -->
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %} {% load static %} {% block content %}
+{% extends "base.html" %} {% load static %} 
+<!-- Load Custon Filters from templatetags/custom_filters.py -->
+{% load custom_filters %}
+
+{% block content %}
 
 <!-- Main content starts here -->
 <!-- Button to Create New Appointment -->
-{% if patient_profile %}
 <div class="container mt-5">
   <div class="row mt-4">
     <div class="col-md-12">
@@ -12,7 +15,6 @@
     </div>
   </div>
 </div>
-{% endif %}
 <!-- All Appointments View -->
 <div class="container mt-5">
   <div class="row">
@@ -48,7 +50,7 @@
                             <i class="fa-regular fa-calendar-minus"></i> Edit Appointment</a>
                          </p>
                          <p>
-                            <a href="{% url 'view_edit_appointment' appointment_id=appointment.id %}" class="btn btn-delete" 
+                            <a href="{% url 'view_delete_appointment' appointment_id=appointment.id %}" class="btn btn-delete" 
                             data-appointment-id="{{ appointment.id }}"
                             onclick="confirmDeleteHandler(event)">
                             <i class="fa-regular fa-calendar-xmark"></i> Delete Appointment

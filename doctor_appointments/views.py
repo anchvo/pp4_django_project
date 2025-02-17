@@ -351,7 +351,7 @@ def view_delete_appointment(request, appointment_id):
         # Proceed with the deletion if it's a POST request
         appointment.delete()
         messages.success(request, 'Appointment successfully deleted.')
-        return redirect('view_appointments_view')  # Redirect to Appointment management
+        return redirect('view_all_appointments')  # Redirect to Appointment management
 
     # If GET request is made, redirect to appointments view or a relevant page
-    return redirect('view_appointments_view')  # Redirecting users to the appointments list page
+    return redirect('view_all_appointments')  # Redirecting users to the appointments list page
