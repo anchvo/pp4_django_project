@@ -62,7 +62,9 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("id_doctor_location")
     .addEventListener("change", updateDoctors);
 
-  // Delete Appointment Popup Validation
+  
+  /* 
+  // Delete Appointment Popup Validation / Internet searched solution, currently not working
   // Function to handle the delete confirmation
   function confirmDeleteHandler(event) {
     // Prevent the default action of the link (which is to go to a URL)
@@ -75,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openDeleteModal(appointmentId);
   }
 
-  // Function to open the delete modal / Internet Solution, currently not working
+  // Function to open the delete modal 
   function openDeleteModal(appointmentId) {
     $("#deleteModal").modal("show"); // Show the modal
 
@@ -103,5 +105,5 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error deleting appointment: ", errmsg);
       },
     });
-  });
+  });*/ 
 });

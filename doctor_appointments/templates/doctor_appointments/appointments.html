@@ -53,9 +53,7 @@
                          </p>
                          {% if patient_profile %}
                          <p>
-                            <a href="{% url 'view_delete_appointment' appointment_id=appointment.id %}" class="btn btn-delete" 
-                            data-appointment-id="{{ appointment.id }}"
-                            onclick="confirmDeleteHandler(event)">
+                            <a href="{% url 'view_delete_appointment' appointment_id=appointment.id %}" class="btn btn-delete" >
                             <i class="fa-regular fa-calendar-xmark"></i> Delete Appointment
                          </a>
                           </p>
@@ -108,7 +106,7 @@
       {% endif %}
   </div>
 
-<!-- Modal for Delete Appointment confirmation -->
+<!-- Modal for Delete Appointment confirmation / Currently not working -->
 <div id="deleteModal" class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

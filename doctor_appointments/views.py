@@ -214,10 +214,12 @@ def view_create_appointment(request):
         # If specialisation and location are provided in the GET parameters, filter the doctors
         if specialisation_id and location_id:
             doctors = Doctor.objects.filter(
-                specialisations__specialisation_name__icontains=specialisation_id,  # Use contains for flexible matching
+                # Use contains for flexible matching
+                specialisations__specialisation_name__icontains=specialisation_id,
                 location__city__icontains=location_id  # Use city to filter location
             )
-            form.fields['doctor'].queryset = doctors  # Update the form's doctor queryset based on the filter
+            # Update the form's doctor queryset based on the filter
+            form.fields['doctor'].queryset = doctors
 
     return render(request, 'doctor_appointments/create_appointment.html', {'form': form})
 
@@ -315,7 +317,8 @@ def view_edit_appointment(request, appointment_id):
         if form.is_valid():
             # Save the updated appointment
             form.save()
-            return redirect('view_all_appointments')  # Redirect to profile view
+            # Redirect to profile view
+            return redirect('view_all_appointments')
     else:
         # For GET request, pass the existing appointment data to the form
         form = CreateAppointmentForm(instance=appointment)
@@ -349,14 +352,24 @@ def view_delete_appointment(request, appointment_id):
     # Fetch the appointment object using the appointment_id from the URL
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
+    # Check if the appointment belongs to the logged-in user
+    if appointment.patient != request.user:
+        messages.error(
+            request, "You are not authorized to delete this appointment.")
+        # Redirect to the appointment list if unauthorized
+        return redirect('view_all_appointments')
+
     if request.method == 'POST':
         # Proceed with the deletion if it's a POST request
         appointment.delete()
         messages.success(request, 'Appointment successfully deleted.')
-        return redirect('view_all_appointments')  # Redirect to Appointment management
+        # Redirect to the appointment management page
+        return redirect('view_all_appointments')
 
-    # If GET request is made, redirect to appointments view or a relevant page
-    return redirect('view_all_appointments')  # Redirecting users to the appointments list page
+    # If it's a GET request, show a confirmation message or page
+
+    # Redirect to appointments list by default
+    return redirect('view_all_appointments')
 
 
 # 404 Error Page
