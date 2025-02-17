@@ -1,0 +1,25 @@
+<!-- Set up as main home page -->
+<!-- Extending generic content from base template (Navbar & Footer) -->
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<!-- Main content starts here -->
+<!-- Error Card -->
+<div class="container my-5">
+  <div class="row">
+    <!-- Reasons Card -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Error 404</h5>
+          <p class="card-text">
+            We are very sorry, but it looks like that didn't work. <br />
+            Try to go back and retrace your steps <br />
+            If the error persists, please contact us and we will fix it.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

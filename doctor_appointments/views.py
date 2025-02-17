@@ -355,3 +355,9 @@ def view_delete_appointment(request, appointment_id):
 
     # If GET request is made, redirect to appointments view or a relevant page
     return redirect('view_all_appointments')  # Redirecting users to the appointments list page
+
+
+# 404 Error Page
+def view_404page(request):
+
+    return render(request, 'doctor_appointments/404.html')
