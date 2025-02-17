@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
     defaultMinute: 0, // Default minutes (optional)
     minuteIncrement: 5, // Allow incrementing by 5 minutes
     time_24hr: true, // Use 24-hour format
+    minDate: "today"  // Prevent selecting a past date
   });
 
   // Function to filter Doctors based on Specialisation and Location

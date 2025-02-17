@@ -7,7 +7,8 @@
 {% block content %}
 
 <!-- Main content starts here -->
-<!-- Button to Create New Appointment -->
+<!-- Button to Create New Appointment / only visible to patients -->
+{% if patient_profile %}
 <div class="container mt-5">
   <div class="row mt-4">
     <div class="col-md-12">
@@ -15,6 +16,7 @@
     </div>
   </div>
 </div>
+{% endif %}
 <!-- All Appointments View -->
 <div class="container mt-5">
   <div class="row">
@@ -49,6 +51,7 @@
                           <a href="{% url 'view_edit_appointment' appointment_id=appointment.id %}" class="btn btn-confirm mt-3">
                             <i class="fa-regular fa-calendar-minus"></i> Edit Appointment</a>
                          </p>
+                         {% if patient_profile %}
                          <p>
                             <a href="{% url 'view_delete_appointment' appointment_id=appointment.id %}" class="btn btn-delete" 
                             data-appointment-id="{{ appointment.id }}"
@@ -56,6 +59,7 @@
                             <i class="fa-regular fa-calendar-xmark"></i> Delete Appointment
                          </a>
                           </p>
+                          {% endif %}
                       </div>
                   </div>
               </div>

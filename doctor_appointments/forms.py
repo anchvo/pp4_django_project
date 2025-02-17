@@ -1,6 +1,7 @@
+from django import forms
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from django import forms
+from django.utils import timezone
 from .models import Patient, Doctor, Appointment, Location, Specialisation
 
 
@@ -110,6 +111,19 @@ class CreateAppointmentForm(forms.ModelForm):
         model = Appointment
         fields = ['doctor_specialisation', 'doctor_location',
                   'appointment_date', 'additional_info']
+        
+    # Validate user input for Date / Time is not in the past
+    def clean_appointment_date(self):
+        appointment_date = self.cleaned_data.get('appointment_date')
+
+        # Get the current time
+        current_time = timezone.now()
+
+        # Check if the selected date is in the past
+        if appointment_date < current_time:
+            raise ValidationError('The appointment date cannot be in the past.')
+
+        return appointment_date
 
     # Validate user input Doctor data with related Location and Specialisation data
     def clean_doctor(self):
@@ -138,5 +152,3 @@ class CreateAppointmentForm(forms.ModelForm):
 
         return doctor
 
-
-# Edit Appointment
