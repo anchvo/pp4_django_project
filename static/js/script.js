@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", function () {
     openDeleteModal(appointmentId);
   }
 
-  // Function to open the delete modal
+  // Function to open the delete modal / Internet Solution, currently not working
   function openDeleteModal(appointmentId) {
     $("#deleteModal").modal("show"); // Show the modal
 
