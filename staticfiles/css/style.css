@@ -1,10 +1,10 @@
 /*Colours*/
 .main-bg {
-    background-color: #FDF0D5;
+    background-color: #E7E8C4;
 }
 
 .dark-bg {
-    background-color: #01579B;
+    background-color: #56682C;
 }
 
 .font-white {
@@ -13,7 +13,27 @@
 
 /*General*/
 body {
-    background-color: #FDF0D5;
+    background-color: #E7E8C4;
+    margin-bottom: 10px;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.page-title {
+    text-transform: uppercase;
+}
+
+/*
+.page-subtitle {
+
+}
+*/
+
+.logged-status i {
+    font-size: 20px;
 }
 
 /*Navbar*/
@@ -25,8 +45,113 @@ body {
     text-transform: uppercase;
 }
 
+.nav-item a:link {
+    color: #FFFFFF;
+}
+
+.nav-item a:hover {
+    color: #DDBEA9;
+}
+
+/*Hero*/
+.hero { 
+    position: relative; 
+    width: 100%; 
+    height: 60vh; 
+    background: url("../images/hero_image.png") no-repeat center center/cover;
+    } 
+      
+.hero-text { 
+    
+    background: rgba(255, 255, 255, 0.5);
+    font-size: 130%;
+    position: absolute;
+    bottom: 20vh;
+    width: 40%;
+    min-height: 200px;
+    padding-top: 40px;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    }
+
 /*Cards*/
 .card {
     border: none;
-    background-color: rgb(179, 229, 252);
+    background-color: rgb(173, 193, 120);
+    margin-bottom: 30px;
 }
+
+.card-title {
+    text-transform: uppercase;
+}
+
+.card-list {
+    list-style-type: "\2713     ";
+}
+
+/*Buttons*/
+.btn-proceed {
+    background-color: #9BB55F;
+}
+
+.btn-change {
+    background-color: #A98467;
+}
+
+.btn-confirm {
+    background-color: #6B705C;
+    color: #FFFFFF;
+}
+
+.btn-delete {
+    background-color: #C78866;
+}
+
+.btn-form {
+    text-align: center;
+}
+
+/*Icons*/
+i {
+    margin-right: 5px;
+}
+
+/*Forms*/
+
+.account-form, .appointment-form, .profile-form {
+    margin-bottom: 30px;
+    background-color: rgb(173, 193, 120);
+    padding: 10px;
+}
+
+/*Create Appointment Form*/
+#no-doctor-message {
+    display: none; 
+    color: red; 
+    font-size: 1.2em; 
+    margin-top: 10px;
+}
+
+/*Footer*/
+
+.footer {
+    color: #FFFFFF;
+}
+
+.footer a:link {
+    color: #FFFFFF;
+}
+
+.footer a:hover {
+    color: #DDBEA9;
+}
+
+.author-footer {
+    margin-right: 5px;
+}
+
+.author-footer i {
+    font-size: 20px
+}
+
