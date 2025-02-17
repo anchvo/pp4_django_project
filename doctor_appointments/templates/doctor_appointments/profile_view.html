@@ -58,33 +58,27 @@
         </div>
         <div class="card-body">
           {% if next_appointment %}
-          <strong>Appointment Date:</strong> {{
-          appointment.appointment_date|date:"F j, Y, g:i a" }}<br />
+          <p><strong>Appointment Date:</strong> {{ next_appointment.appointment_date|date:"F j, Y, g:i a" }} </p>
           {% if patient_profile %}
           <!-- If user is a Patient -->
           <p>
             <strong>Doctor:</strong> {{ next_appointment.doctor.title }} {{ next_appointment.doctor.full_name }}
           </p>
           <p>
-            <strong>Practice:</strong> {{
-            next_appointment.doctor.practice_name }}
+            <strong>Practice:</strong> {{ next_appointment.doctor.practice_name }}
           </p>
           <p>
-            <strong>Specialisation:</strong> {{
-            next_appointment.doctor_specialisation.specialisation_name }}
+            <strong>Specialisation:</strong> {{ next_appointment.doctor_specialisation.specialisation_name }}
           </p>
           <p><strong>Address:</strong> {{ next_appointment.doctor.address }}</p>
           <p>
-            <strong>Location:</strong> {{ next_appointment.doctor_location.city
-            }}
+            <strong>Location:</strong> {{ next_appointment.doctor_location.city }}
           </p>
           <p>
-            <strong>Email:</strong> {{ next_appointment.doctor_location.email
-            }}
+            <strong>Email:</strong> {{ next_appointment.doctor.email }}
           </p>
           <p>
-            <strong>Phone Number:</strong> {{ next_appointment.doctor_location.phone_number
-            }}
+            <strong>Phone Number:</strong> {{ next_appointment.doctor.phone_number }}
           </p>
           <p>
             <strong>Features:</strong> {{ next_appointment.doctor.features }}
@@ -99,13 +93,11 @@
           <strong>Patient Phone Number:</strong> {{ next_appointment.patient.phone_number }}
           </p>
           <p>
-            <strong>Location:</strong> {{ next_appointment.doctor_location.city
-            }}
+            <strong>Location:</strong> {{ next_appointment.doctor_location.city }}
           </p>
           {% endif %}
           <p>
-            <strong>Additional Information:</strong> {{
-            next_appointment.additional_info }}
+            <strong>Additional Information:</strong> {{ next_appointment.additional_info }}
           </p>
           {% else %}
           <p>You don't have any upcoming appointments.</p>
