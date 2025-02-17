@@ -1,14 +1,18 @@
 <!-- Set up as main home page -->
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <!-- Main content starts here -->
 <!-- Hero Section -->
 <div class="hero">
   <div class="hero-overlay"></div>
   <div class="hero-text">
-      <h1>Welcome to Doctor Appointments</h1>
+      <h1>Welcome to Doc|Schedule</h1>
       <p>Discover the benefits of booking appointments online with us!</p>
+      <a href="{% url 'account_signup' %}" class="btn btn-confirm mt-3"
+      ><i class="fa-solid fa-user-plus"></i> Register</a>
+      <a href="{% url 'account_login' %}" class="btn btn-confirm mt-3"
+      ><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
   </div>
 </div>
 
@@ -18,10 +22,16 @@
       <!-- Reasons Card -->
       <div class="col-md-4">
           <div class="card">
-              <img src="" class="card-img-top" alt="Card image">
+              <img src="{% static 'images/reason_image.png' %}" class="card-img-top" alt="Reasons to Book Online Image">
               <div class="card-header">
-                  <h5>REASONS TO BOOK ONLINE</h5>
-                  <p class="card-text">Card Content</p>
+                  <h5 class="card-title">Reasons to book online</h5>
+                  <p class="card-text">
+                    <ul class="card-list">
+                        <li>There is a lot of time to safe instead of staying on hold on the phone</li>
+                        <li>Going to make an appointment in person can be difficult depending on the distance and access</li>
+                        <li>If you are already sick, loading a website might be the least stressful option </li>
+                    </ul>
+                  </p>
               </div>
           </div>
       </div>
@@ -29,10 +39,16 @@
       <!-- How Card -->
       <div class="col-md-4">
           <div class="card">
-              <img src="" class="card-img-top" alt="Card image">
+              <img src="{% static 'images/reason_three_image.png' %}" class="card-img-top" alt="How does it work Image">
               <div class="card-header">
-                  <h5>HOW DOES IT WORK</h5>
-                  <p class="card-text">Card Content</p>
+                  <h5 class="card-title">How does it work</h5>
+                  <p class="card-text">
+                    <ul class="card-list">
+                        <li>You register with us and set up a profile - either as a Patient or a Doctor</li>
+                        <li>When you log in with your profile, you can book appointments for registered Doctors</li>
+                        <li>You can set the your contact preferrence to phone and stay updated even if offline</li>
+                    </ul>
+                  </p>
               </div>
           </div>
       </div>
@@ -40,10 +56,16 @@
       <!-- Why Card -->
       <div class="col-md-4">
           <div class="card">
-              <img src="" class="card-img-top" alt="Card image">
+              <img src="{% static 'images/reason_two_image.png' %}" class="card-img-top" alt="Why use us Image">
               <div class="card-header">
-                  <h5>WHY USE US</h5>
-                  <p class="card-text">Card Content</p>
+                  <h5 class="card-title">Why use us</h5>
+                  <p class="card-text">
+                    <ul class="card-list">
+                        <li>We put a special focus on senior citizens and their needs</li>
+                        <li>We keep close relations to all registered Doctors, checking their standards regularly</li>
+                        <li>We provide customer support from Monday to Sunday, 24 hours a day</li>
+                    </ul>
+                  </p>
               </div>
           </div>
       </div>

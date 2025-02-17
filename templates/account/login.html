@@ -9,24 +9,27 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-8 mt-3 offset-md-2">
-            <h3>{% trans "Sign In" %}</h3>
+        <div class="col-md-8 mt-3 offset-md-2 page-header">
+            <h3 class="page-title">Sign In</h3>
 
-            <p>{% blocktrans %}Welcome back to Doctor Appointments. To be able to make appointments, please log in. If
-                you
-                have not created an account yet, then <a class="link" href="{{ signup_url }}">register</a>
-                first.{% endblocktrans %}</p>
+            <p>Welcome back to Doc|Schedule. <br> 
+                To be able to make appointments, please log in. <br> 
+                If you have not created an account yet, then you need to register first. <br>
+                <a class="link btn btn-confirm mt-3" href="{{ signup_url }}"><i class="fa-solid fa-user-plus"></i> Register</a>
+            </p>
         </div>
     </div>
     <div class="row">
         <div class="col-md-8 mt-3 offset-md-2">
-            <form class="login" method="POST" action="{% url 'account_login' %}">
+            <form class="login account-form" method="POST" action="{% url 'account_login' %}">
                 {% csrf_token %}
                 {{ form | crispy }}
                 {% if redirect_field_value %}
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
-                <button class="btn btn-confirm" type="submit">{% trans "Sign In" %}</button>
+                <div class="btn-form">
+                <button class="btn btn-confirm" type="submit"><i class="fa-solid fa-right-to-bracket"></i> Sign In</button>
+            </div>
             </form>
         </div>
     </div>

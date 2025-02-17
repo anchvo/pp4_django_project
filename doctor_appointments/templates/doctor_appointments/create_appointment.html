@@ -4,10 +4,19 @@
 <!-- Page Title and Message -->
 <div class="container">
   <div class="row">
-    <div class="col-md-8 mt-3 offset-md-2">
-      <h3><i class="fa-regular fa-calendar-plus"></i> Create New Appointment</h3>
+    <div class="col-md-8 mt-3 offset-md-2 page-header">
+      <h3 class="page-title">
+        <i class="fa-regular fa-calendar-plus"></i> Create New Appointment
+      </h3>
 
-      <p>Additional information following soon</p>
+      <p>
+        Please fill out the form and enter all required data - required data is
+        marked by an * <br />
+        You can first choose your needed Specialisation and Location, all Doctors fitting those criteria will show in the dropdown menu. <br>
+        Should no Doctor be available for your choices, a notification will let you know. <br>
+        In that case, please adjust your choices if possible or come back to us another time and check if a fitting Doctor is now registered. <br>
+        Should you have any questions, feedback or requests, please contact us at any time.
+      </p>
     </div>
   </div>
 
@@ -17,43 +26,34 @@
       <form class="appointment-form" method="post">
         {% csrf_token %}
 
-       <!-- Render the entire form with crispy styling -->
-      {{ form|crispy }}
+        <!-- Render the entire form with crispy styling -->
+        {{ form|crispy }}
 
-      <!-- Specialisation Field -->
-      <div class="form-group">
+        <!-- Specialisation Field -->
+        <div class="form-group">{{ form.doctor_specialisation|crispy }}</div>
 
-        {{ form.doctor_specialisation|crispy }}
-      </div>
+        <!-- Location Field -->
+        <div class="form-group">{{ form.doctor_location|crispy }}</div>
 
-      <!-- Location Field -->
-      <div class="form-group">
-        {{ form.doctor_location|crispy }}
-      </div>
+        <!-- Dynamic Doctor Dropdown (Initially empty) -->
+        <div class="form-group">{{ form.doctor|crispy }}</div>
 
-      <!-- Dynamic Doctor Dropdown (Initially empty) -->
-      <div class="form-group">
-        {{ form.doctor|crispy }}
-      </div>
+        <!-- No Doctor available for option set -->
+        <div id="no-doctor-message" style="display: none">
+          No doctors available for the selected specialisation and location.
+        </div>
 
-      <!-- No Doctor available for option set -->
-      <div id="no-doctor-message" style="display:none;">
-        No doctors available for the selected specialisation and location.
-      </div>
+        <!-- Appointment Date Field -->
+        <div class="form-group">{{ form.appointment_date|crispy }}</div>
 
-      <!-- Appointment Date Field -->
-      <div class="form-group">
-        {{ form.appointment_date|crispy }}
-      </div>
-
-      <!-- Additional Info Field -->
-      <div class="form-group">
-        {{ form.additional_info|crispy }}
-      </div>
-
-        <button type="submit" class="btn btn-proceed mt-3"><i class="fa-regular fa-calendar-plus"></i> 
-          Create New Appointment
-        </button>
+        <!-- Additional Info Field -->
+        <div class="form-group">{{ form.additional_info|crispy }}</div>
+        <div class="btn-form">
+          <button type="submit" class="btn btn-confirm mt-3">
+            <i class="fa-regular fa-calendar-plus"></i>
+            Create New Appointment
+          </button>
+        </div>
       </form>
     </div>
   </div>

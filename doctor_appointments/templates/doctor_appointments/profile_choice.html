@@ -1,32 +1,50 @@
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <!-- Main content starts here -->
 <div class="container mt-5">
   <div class="row">
-    <h1 class="profile-choice-tilte">Welcome {{ user.username }}</h1>
-    <h2>Please chose how you want to set up your profile.</h2>
+    <div class="page-header">
+    <h2 class="page-title">Welcome {{ user.username }}</h2>
+    <h3 class="page-subtitle">Please choose how you want to set up your profile.</h3>
+    </div>
     <!-- Profile Card -->
     <div class="col-md-6">
       <div class="card">
-        <img src="" class="card-img-top" alt="Card image">
+        <img src="{% static 'images/patient_logo.png' %}" class="card-img-top" alt="Patient Logo">
         <div class="card-header">
-          <h4>Patient Profile</h4>
-          <p>Set up a patient account and make appointments with doctors</p>
+          <h4 class="card-title">Patient Profile</h4>
+          <p class="card-text">
+            You can: 
+            <ul class="card-list">
+                <li>Create a Patient Profile with the most important information</li>
+                <li>Get access to the online doctor appointment booking system</li>
+                <li>Choose from all registered Doctors</li>
+                <li>Manage your appointments - reschedule and cancel as needed</li>
+                <li>Return any time and simply log in</li>
+            </ul>
+          </p>
             <a href="{% url 'view_patient_profile_form' %}" class="btn btn-confirm mt-3"
               >Continue as a Patient</a>
         </div>
       </div>
     </div>
+
     <!-- Profile Card -->
     <div class="col-md-6">
       <div class="card">
-        <img src="" class="card-img-top" alt="Card image">
+        <img src="{% static 'images/doctor_logo.png' %}" class="card-img-top" alt="Doctor Logo">
         <div class="card-header">
-          <h4>Doctor Profile</h4>
-          <p>
-            Set up a doctor account and save your practice and allow patients to
-            make appointments
+          <h4 class="card-title">Doctor Profile</h4>
+          <p class="card-text">
+            You can: 
+            <ul class="card-list">
+                <li>Create a Doctor Profile with all your information</li>
+                <li>Set up your practice, specialisations and location</li>
+                <li>View appointments that patients made with you</li>
+                <li>Manage your appointments - reschedule and cancel as needed</li>
+                <li>Return any time and simply log in</li>
+            </ul>
           </p>
             <a href="{% url 'view_doctor_profile_form' %}" class="btn btn-confirm mt-3"
               >Continue as a Doctor</a>

@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html class="h-100" lang="en">
   <head>
-    <title>Doctor Appointments</title>
+    <title>Doc|Schedule</title>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -37,7 +37,7 @@
     <!-- Header / Navigation -->
     <nav class="navbar navbar-expand-lg dark-bg text-white">
         <div class="container-fluid">
-            <a class="navbar-brand text-white" href="{% url 'home' %}"><span class="brand">Doctor Appointments</span></a>
+            <a class="navbar-brand text-white" href="{% url 'home' %}"><span class="brand">Doc|Schedule</span></a>
             <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
                 aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -76,8 +76,6 @@
     <main class="flex-shrink-0 main-bg">
         {% if user.is_authenticated %}
         <p class="text-end m-3">You are logged in as {{ user.username }}</p>
-        {% else %}
-        <p class="text-end m-3">You are not logged in</p>
         {% endif %}
         
         {% block content %}
@@ -87,12 +85,23 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 dark-bg text-white">
-        <p class="m-0 text-center text-white">Made by anchvo</p>
-        <p class="m-0 text-center text-white">Find me on:
-            <i class="fab fa-github ms-3"></i>
-            <i class="fab fa-linkedin ms-3"></i>
+    <footer class="footer d-flex justify-content-between dark-bg">
+        <div class="contact-footer p-2">
+        <p>Contact us: <br>
+        Doc|Schedule <br>
+        Hamburg <br>
+        Emai: admin@docschedule.de <br>
+        Phone: +49 233 2014 0
         </p>
+        </div>
+        <div class="author-footer p-2">
+        <p>About: <br>
+        Made by anchvo <br>
+        Find me on: <br>
+        <a href="https://github.com/anchvo"><i class="fab fa-github ms-3"></i></a>
+        <a href="https://www.linkedin.com/in/anne-voretzsch/"><i class="fab fa-linkedin ms-3"></i></a>
+        </p>
+        </div>  
     </footer>
 
     <!-- Scripts -->
