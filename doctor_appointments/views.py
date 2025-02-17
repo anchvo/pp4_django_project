@@ -298,7 +298,7 @@ def view_all_appointments(request):
 # Edit Appointment
 @login_required
 def view_edit_appointment(request, appointment_id):
- # Fetch the appointment object that needs to be edited
+    # Fetch the appointment object that needs to be edited
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
     if request.method == 'POST':
@@ -339,3 +339,19 @@ def view_edit_appointment(request, appointment_id):
         form.fields['doctor'].initial = appointment.doctor
 
     return render(request, 'doctor_appointments/edit_appointment.html', {'form': form})
+
+
+# Delete Appointment
+@login_required
+def view_delete_appointment(request, appointment_id):
+    # Fetch the appointment object using the appointment_id from the URL
+    appointment = get_object_or_404(Appointment, id=appointment_id)
+
+    if request.method == 'POST':
+        # Proceed with the deletion if it's a POST request
+        appointment.delete()
+        messages.success(request, 'Appointment successfully deleted.')
+        return redirect('view_appointments_view')  # Redirect to Appointment management
+
+    # If GET request is made, redirect to appointments view or a relevant page
+    return redirect('view_appointments_view')  # Redirecting users to the appointments list page

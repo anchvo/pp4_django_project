@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Dynamically populate the Doctor option
             data.doctors.forEach((doctor) => {
               var option = document.createElement("option");
-              option.value = doctor.id;  // Set doctor id as value
+              option.value = doctor.id; // Set doctor id as value
               option.text = doctor.full_name;
               doctorSelect.appendChild(option);
             });
@@ -60,4 +60,47 @@ document.addEventListener("DOMContentLoaded", function () {
   document
     .getElementById("id_doctor_location")
     .addEventListener("change", updateDoctors);
+
+  // Delete Appointment Popup Validation
+  // Function to handle the delete confirmation
+  function confirmDeleteHandler(event) {
+    // Prevent the default action of the link (which is to go to a URL)
+    event.preventDefault();
+
+    // Get the appointment ID from the clicked button
+    const appointmentId = event.target.getAttribute("data-appointment-id");
+
+    // Open the modal and pass the appointmentId to the modal
+    openDeleteModal(appointmentId);
+  }
+
+  // Function to open the delete modal
+  function openDeleteModal(appointmentId) {
+    $("#deleteModal").modal("show"); // Show the modal
+
+    // Store the appointment ID in the modal's delete button
+    $("#confirmDelete").attr("data-appointment-id", appointmentId);
+  }
+
+  // When the "Delete" button inside the modal is clicked
+  $("#confirmDelete").click(function () {
+    const appointmentId = $(this).attr("data-appointment-id"); // Get the appointment ID
+
+    // Make the AJAX request to delete the appointment
+    $.ajax({
+      url: "/appointments/delete/" + appointmentId + "/", // Adjust URL for your delete endpoint
+      type: "POST",
+      data: {
+        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), // Ensure CSRF protection
+      },
+      success: function (response) {
+        // On success, hide the modal and reload the page or handle the response
+        $("#deleteModal").modal("hide");
+        location.reload(); // Optionally reload to reflect the changes
+      },
+      error: function (xhr, errmsg, err) {
+        console.error("Error deleting appointment: ", errmsg);
+      },
+    });
+  });
 });
