@@ -1,8 +1,18 @@
 <!-- Set up as main home page -->
 <!-- Extending generic content from base template (Navbar & Footer) -->
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} {% load static %} {% block content %}
 
 <!-- Main content starts here -->
+<!-- Button to Create New Appointment -->
+{% if patient_profile %}
+<div class="container mt-5">
+  <div class="row mt-4">
+    <div class="col-md-12">
+        <a href="{% url 'view_create_appointment' %}" class="btn btn-confirm mt-3"><i class="fa-regular fa-calendar-plus"></i> Create New Appointment</a>
+    </div>
+  </div>
+</div>
+{% endif %}
 <!-- All Appointments View -->
 <div class="container mt-5">
   <div class="row">
@@ -12,7 +22,7 @@
               <div class="col-md-4 mb-4">
                   <div class="card">
                       <div class="card-header">
-                          <h5 class="card-title">Appointment on {{ appointment.appointment_date|date:"F j, Y, g:i a" }}</h5>
+                          <h5 class="card-title">Appointment on: <br> {{ appointment.appointment_date|date:"F j, Y, g:i a" }}</h5>
                       </div>
                       <div class="card-body">
                           {% if patient_profile %}
@@ -33,6 +43,10 @@
                               <p><strong>Location:</strong> {{ appointment.doctor_location.city }}</p>
                           {% endif %}
                           <p><strong>Additional Information:</strong> {{ appointment.additional_info }}</p>
+                          <p>
+                          <a href="{% url 'view_edit_appointment' appointment_id=appointment.id %}" class="btn btn-confirm mt-3">
+                            <i class="fa-regular fa-calendar-minus"></i> Edit Appointment</a>
+                         </p>
                       </div>
                   </div>
               </div>
@@ -80,13 +94,5 @@
           <p>You don't have any appointments scheduled yet.</p>
       {% endif %}
   </div>
-
-  <!-- Button to Create New Appointment -->
-  <div class="row mt-4">
-      <div class="col-md-12">
-          <a href="{% url 'view_create_appointment' %}" class="btn btn-primary">Create New Appointment</a>
-      </div>
-  </div>
-</div>
 
 {% endblock %}

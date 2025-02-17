@@ -111,12 +111,18 @@ class CreateAppointmentForm(forms.ModelForm):
         fields = ['doctor_specialisation', 'doctor_location',
                   'appointment_date', 'additional_info']
 
-    # New
+    # Validate user input Doctor data with related Location and Specialisation data
     def clean_doctor(self):
         doctor = self.cleaned_data.get('doctor')
         specialisation = self.cleaned_data.get('doctor_specialisation')
         location = self.cleaned_data.get('doctor_location')
 
+        # For editing Appointments
+        # Skip validation if the form is being used to edit an existing appointment
+        if self.instance.pk:
+            return doctor  # Return the doctor without any validation if it's an edit.
+
+        # For new Appointments
         # Validate that the doctor selected matches the chosen specialisation and location
         if doctor:
             # Ensure the doctor's specialisation matches

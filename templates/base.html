@@ -49,7 +49,7 @@
                         <a class="nav-link {% if request.path == profile_url %}active{% endif %}" aria-current="page" href="{% url 'view_profile_view' %}">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Logout</a>
+                        <a class="nav-link {% if request.path == logout_url %}active{% endif %}" aria-current="page" href="{% url 'account_logout' %}">Sign Out</a>
                     </li>
                     {% else %}
                     <li class="nav-item">
@@ -61,7 +61,7 @@
                             href="{% url 'account_signup' %}">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Login</a>
+                        <a class="nav-link {% if request.path == login_url %}active{% endif %}" aria-current="page" href="{% url 'account_login' %}">Sign In</a>
                     </li>
                     {% endif %}
                 </ul>
@@ -73,9 +73,9 @@
     </nav>
 
     <!-- Main Content -->
-    <main class="flex-shrink-0 main-bg">
+    <main class="flex-shrink-0 main-bg logged-status">
         {% if user.is_authenticated %}
-        <p class="text-end m-3">You are logged in as {{ user.username }}</p>
+        <p class="text-end m-3"><i class="fa-solid fa-user-check"></i> {{ user.username }}</p>
         {% endif %}
         
         {% block content %}
@@ -85,11 +85,11 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer d-flex justify-content-between dark-bg">
+    <footer class="footer mt-auto py-3 d-flex justify-content-between dark-bg">
         <div class="contact-footer p-2">
         <p>Contact us: <br>
         Doc|Schedule <br>
-        Hamburg <br>
+        Hamburg, Germany <br>
         Emai: admin@docschedule.de <br>
         Phone: +49 233 2014 0
         </p>

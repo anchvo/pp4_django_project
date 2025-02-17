@@ -202,7 +202,7 @@ def view_create_appointment(request):
             appointment.patient = patient  # Set patient as the logged-in user
             appointment.save()
             # Redirect to the profile view after successful creation
-            return redirect('profile_view')
+            return redirect('view_profile_view')
     else:
         # Ddoctors are filtered based on the selected specialisation and location
         specialisation_id = request.GET.get('specialisation', None)
@@ -297,6 +297,45 @@ def view_all_appointments(request):
 
 # Edit Appointment
 @login_required
-def view_edit_appointment(request):
+def view_edit_appointment(request, appointment_id):
+ # Fetch the appointment object that needs to be edited
+    appointment = get_object_or_404(Appointment, id=appointment_id)
 
-    return render(request, 'doctor_appointments/index.html')
+    if request.method == 'POST':
+        # Bind the form with the existing appointment data
+        form = CreateAppointmentForm(request.POST, instance=appointment)
+
+        # Set the fields as non-required when submitting (to avoid validation errors)
+        form.fields['doctor_specialisation'].required = False
+        form.fields['doctor_location'].required = False
+        form.fields['doctor'].required = False
+
+        if form.is_valid():
+            # Save the updated appointment
+            form.save()
+            return redirect('view_profile_view')  # Redirect to profile view
+    else:
+        # For GET request, pass the existing appointment data to the form
+        form = CreateAppointmentForm(instance=appointment)
+
+        # Make the fields readonly (non-editable)
+        form.fields['doctor_specialisation'].widget.attrs['readonly'] = True
+        form.fields['doctor_location'].widget.attrs['readonly'] = True
+        form.fields['doctor'].widget.attrs['readonly'] = True
+
+        # Set the fields as non-required dynamically for this form
+        form.fields['doctor_specialisation'].required = False
+        form.fields['doctor_location'].required = False
+        form.fields['doctor'].required = False
+
+        # Use disabled to prevent form submission from including the fields' values
+        form.fields['doctor_specialisation'].widget.attrs['disabled'] = 'disabled'
+        form.fields['doctor_location'].widget.attrs['disabled'] = 'disabled'
+        form.fields['doctor'].widget.attrs['disabled'] = 'disabled'
+
+        # Ensure initial values for doctor_specialisation, doctor_location, and doctor
+        form.fields['doctor_specialisation'].initial = appointment.doctor_specialisation
+        form.fields['doctor_location'].initial = appointment.doctor_location
+        form.fields['doctor'].initial = appointment.doctor
+
+    return render(request, 'doctor_appointments/edit_appointment.html', {'form': form})

@@ -1,6 +1,8 @@
 <!-- Extending generic content from base template (Navbar & Footer) -->
 {% extends "base.html" %} 
 
+{% load static %}
+
 <!-- Load Custon Filters from templatetags/custom_filters.py -->
 {% load custom_filters %}
 
@@ -61,7 +63,7 @@
           {% if patient_profile %}
           <!-- If user is a Patient -->
           <p>
-            <strong>Doctor:</strong>{{ next_appointment.doctor.title }} {{ next_appointment.doctor.full_name }}
+            <strong>Doctor:</strong> {{ next_appointment.doctor.title }} {{ next_appointment.doctor.full_name }}
           </p>
           <p>
             <strong>Practice:</strong> {{
@@ -111,11 +113,12 @@
           <a href="{% url 'view_all_appointments' %}" class="btn btn-confirm mt-3"
           ><i class="fa-regular fa-calendar"></i> View All Appointments</a
         >
+        {% if patient_profile %}
         <a
           href="{% url 'view_create_appointment' %}"
           class="btn btn-confirm mt-3 float-end"
-          ><i class="fa-regular fa-calendar-plus"></i> Create New Appointment</a
-        >
+          ><i class="fa-regular fa-calendar-plus"></i> Create New Appointment</a>
+          {% endif %}
         </div>
       </div>
     </div>
