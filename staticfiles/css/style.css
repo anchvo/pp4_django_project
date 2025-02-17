@@ -26,12 +26,6 @@ body {
     text-transform: uppercase;
 }
 
-/*
-.page-subtitle {
-
-}
-*/
-
 .logged-status i {
     font-size: 20px;
 }
@@ -66,7 +60,9 @@ body {
     background: rgba(255, 255, 255, 0.5);
     font-size: 130%;
     position: absolute;
-    bottom: 20vh;
+    left: 10%;  /* Position to the left */
+    top: 50%;  /* Vertically centered */
+    transform: translateY(-50%);  /* Fine-tune vertical centering */
     width: 40%;
     min-height: 200px;
     padding-top: 40px;
@@ -153,5 +149,46 @@ i {
 
 .author-footer i {
     font-size: 20px
+}
+
+/* Media Queries */
+@media (max-width: 992px) {
+    .hero {
+        height: 50vh;  /* Adjust height for smaller screens */
+        background: url("../images/hero_image_medium.png") no-repeat center center/cover;
+    }
+
+    .hero-text {
+        left: 5%;  /* Adjust position to be closer to the left on small screens */
+        width: 55%;  /* Make the text container wider on small screens */
+    }
+}
+
+
+@media (max-width: 768px) {
+    .hero {
+        height: 50vh; 
+        background: url("../images/hero_image_mid.png") no-repeat center center/cover;
+    }
+    .hero-text {
+        left: 5%;  /* Adjust position to be closer to the left on small screens */
+        width: 50%;  /* Make the text container wider on small screens */
+    }
+
+    .hero-text h1 {
+        font-size: 1.8rem;
+    }
+
+    .hero-text p {
+        font-size: 1rem; 
+    }
+}
+
+/* Mobile phones and very small screens */
+@media (max-width: 480px) {
+    .hero {
+        height: 50vh; 
+        background: url("../images/hero_image_small.png") no-repeat center center/cover;
+    }
 }
 
