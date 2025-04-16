@@ -150,13 +150,12 @@ class CreateAppointmentForm(forms.ModelForm):
         # Validate that the doctor selected matches the chosen specialisation and location
         if doctor:
             # Ensure the doctor's specialisation matches
-            if specialisation and specialisation.specialisation_name not in doctor.specialisations:
+            if specialisation and specialisation not in doctor.specialisations.all():
                 raise forms.ValidationError(
                     'The selected doctor does not match the chosen specialisation.')
 
-        # Ensure the doctor's location matches
-        if location and doctor.location:
-            if doctor.location.city != location.city:
+            # Ensure the doctor's location matches
+            if location and location not in doctor.locations.all():
                 raise forms.ValidationError(
                     'The selected doctor does not match the chosen location.')
 
