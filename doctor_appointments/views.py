@@ -194,12 +194,42 @@ def view_profile_view(request):
 def view_create_appointment(request):
 
     if request.method == 'POST':
+
+        specialisation_id = request.POST.get('doctor_specialisation')
+        location_id = request.POST.get('doctor_location')
+
         form = CreateAppointmentForm(request.POST)
+
+        if specialisation_id and location_id:
+            try:
+                specialisation = Specialisation.objects.get(id=specialisation_id)
+                doctors = Doctor.objects.filter(
+                    locations__id=location_id,
+                    specialisations=specialisation
+                ).distinct()
+                form.fields['doctor'].queryset = doctors
+            except Specialisation.DoesNotExist:
+                form.fields['doctor'].queryset = Doctor.objects.none()
+
         if form.is_valid():
-            # Save new appointment with the current patient
+
+            # 
+            doctor = form.cleaned_data.get('doctor')
+            if not doctor:
+                form.add_error('doctor', 'You must select a valid doctor.')
+                return render(request, 'doctor_appointments/create_appointment.html', {'form': form})
+
+            # Save new appointment with the current user
             appointment = form.save(commit=False)
-            patient = Patient.objects.get(user=request.user)
-            appointment.patient = patient  # Set patient as the logged-in user
+            appointment.patient = Patient.objects.get(user=request.user)
+
+            # Ensure the doctor is set
+            doctor = form.cleaned_data.get('doctor')
+            if doctor:
+                appointment.doctor = doctor
+            else:
+                form.add_error('doctor', 'You must select a doctor.')
+
             appointment.save()
             # Redirect to the profile view after successful creation
             return redirect('view_all_appointments')
@@ -216,7 +246,7 @@ def view_create_appointment(request):
             doctors = Doctor.objects.filter(
                 # Use contains for flexible matching
                 specialisations__specialisation_name__icontains=specialisation_id,
-                location__city__icontains=location_id  # Use city to filter location
+                locations__city__icontains=location_id  # Use city to filter location
             )
             # Update the form's doctor queryset based on the filter
             form.fields['doctor'].queryset = doctors
@@ -241,12 +271,11 @@ def get_doctors(request):
         # Return empty if the specialisation doesn't exist
         return JsonResponse({'doctors': []})
 
-    # Filter doctors by matching specialisation name (from specialisations field) and location
+    # Filter doctors by matching specialisation and location
     doctors = Doctor.objects.filter(
-        location__id=location_id,  # Filter by location ForeignKey
-        # Match against 'specialisations' field (CharField)
-        specialisations__icontains=specialisation.specialisation_name
-    )
+        locations__id=location_id,
+        specialisations=specialisation
+    ).distinct()
 
     # Create a list of doctors to return in the JSON response
     doctor_data = [{'id': doctor.id, 'full_name': doctor.full_name}
