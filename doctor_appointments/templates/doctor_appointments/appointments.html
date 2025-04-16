@@ -38,7 +38,7 @@
                               <p><strong>Location:</strong> {{ appointment.doctor_location.city }}</p>
                               <p><strong>Email:</strong> {{ appointment.doctor.email }}</p>
                               <p><strong>Phone Number:</strong> {{ appointment.doctor.phone_number }}</p>
-                              <p><strong>Features:</strong> {{ appointment.doctor.features }}</p>
+                              <p><strong>Features:</strong> {{ appointment.doctor.features|split:","|join:", " }}</p>
                           {% elif doctor_profile %}
                               <!-- If user is a Doctor -->
                               <p><strong>Patient:</strong> {{ appointment.patient.full_name }}</p>
