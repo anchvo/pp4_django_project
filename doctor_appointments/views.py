@@ -92,28 +92,23 @@ def view_doctor_profile_form(request):
 
             # Save user input location to Location model
             # Check if location already exists / retrieve object
-            location = Location.objects.filter(doctor=doctor).first()
+            location = Location.objects.filter(doctors=doctor).first()
             if not location:
-                location = Location(
-                    doctor=doctor, city=form.cleaned_data['city'])
-                location.save()
-
-            # Save user input specialisations to Specialisation model
-            # Cleaned & validated list separated by commas
-            specialisations = form.cleaned_data['specialisations']
+                city_name = form.cleaned_data['city']
+                location, created = Location.objects.get_or_create(city=city_name)
+                doctor.locations.add(location)
 
             # Save specialisations as a comma-separated string in the Doctor model
-            doctor.specialisations = ', '.join(specialisations)
-            doctor.save()  # Save Doctor Instance with updated Specialisation
+            specialisation_names = form.cleaned_data['specialisations']
+            specialisation_objs = []
 
-            for spec in specialisations:
-                spec = spec.strip()  # Clean extra spaces
-                # Ensure the specialisation doesn't exist already for this doctor / Avoid duplicates
-                # Check existance of specific entry
-                if not Specialisation.objects.filter(doctor=doctor, specialisation_name=spec).exists():
-                    specialisation = Specialisation(
-                        doctor=doctor, specialisation_name=spec)
-                    specialisation.save()
+            for spec in specialisation_names:
+                spec = spec.strip()
+                if spec:
+                    obj, created = Specialisation.objects.get_or_create(specialisation_name=spec)
+                    specialisation_objs.append(obj)
+
+            doctor.specialisations.set(specialisation_objs)
 
             # Redirects to User Profile View
             return redirect('view_profile_view')

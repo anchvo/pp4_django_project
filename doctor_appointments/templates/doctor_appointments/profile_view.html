@@ -28,13 +28,22 @@
           <p>
             <strong>Phone Number:</strong> {{ doctor_profile.phone_number }}
           </p>
-          <p>
-            <strong>Specialisation:</strong>
-            {{ doctor_profile.specialisations|split:','|join:', ' }}
+          <p><strong>Specialisation:</strong>
+            {% for spec in doctor_profile.specialisations.all %}
+              {{ spec.specialisation_name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              No specialisations listed.
+            {% endfor %}
           </p>
-          <p><strong>City:</strong> {{ doctor_profile.city }}</p>
+          <p><strong>City:</strong>
+            {% for location in doctor_profile.locations.all %}
+              {{ location.city }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              No locations listed.
+            {% endfor %}
+          </p>
           <p><strong>Address:</strong> {{ doctor_profile.address }}</p>
-          <p><strong>Features:</strong> {{ doctor_profile.features }}</p>
+          <p><strong>Features:</strong> {{ doctor_profile.features|split:","|join:", " }}</p>
           {% elif patient_profile %}
           <!-- Patient Profile -->
           <p><strong>Full Name:</strong> {{ patient_profile.full_name }}</p>
