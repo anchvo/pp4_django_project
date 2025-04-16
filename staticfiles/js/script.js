@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Flatpicker Initialize for appointment_date field
+  
+  // Flatpickr initialization for the appointment date field
   flatpickr("#id_appointment_date", {
     enableTime: true,
     dateFormat: "Y-m-d H:i", // Date and time format
@@ -10,100 +11,82 @@ document.addEventListener("DOMContentLoaded", function () {
     minDate: "today"  // Prevent selecting a past date
   });
 
-  // Function to filter Doctors based on Specialisation and Location
-  // Function triggered by CreateAppointmentForm user input for Specialisation and Location
-  function updateDoctors() {
-    var specialisation = document.getElementById(
-      "id_doctor_specialisation"
-    ).value;
-    var location = document.getElementById("id_doctor_location").value;
+  // Function to update the doctor dropdown based on selected specialization and location
+  const updateDoctors = function () {
+    const specField = document.getElementById("id_doctor_specialisation");
+    const locField = document.getElementById("id_doctor_location");
+    const doctorSelect = document.getElementById("id_doctor");
 
-    // Only proceed if both specialisation and location are selected
+    if (!specField || !locField || !doctorSelect) {
+      console.warn("Skipping doctor update – one or more fields not found.");
+      return;
+    }
+
+    const specialisation = specField.value;
+    const location = locField.value;
+
     if (specialisation && location) {
-      fetch(
-        `/get-doctors/?specialisation=${specialisation}&location=${location}`
-      )
+      fetch(`/get-doctors/?specialisation=${specialisation}&location=${location}`)
         .then((response) => response.json())
         .then((data) => {
-          var doctorSelect = document.getElementById("id_doctor");
           doctorSelect.innerHTML = ""; // Clear existing options
 
-          // Default option
-          var defaultOption = document.createElement("option");
+          const defaultOption = document.createElement("option");
           defaultOption.text = "Select Doctor";
           doctorSelect.appendChild(defaultOption);
 
-          // If no doctors are available, show a message
           if (data.doctors.length === 0) {
-            document.getElementById("no-doctor-message").style.display =
-              "block"; // Show message
-            doctorSelect.disabled = true; // Disable the dropdown
+            document.getElementById("no-doctor-message").style.display = "block";
+            doctorSelect.disabled = true;
           } else {
-            document.getElementById("no-doctor-message").style.display = "none"; // Hide message
-            doctorSelect.disabled = false; // Enable the dropdown
+            document.getElementById("no-doctor-message").style.display = "none";
+            doctorSelect.disabled = false;
 
-            // Dynamically populate the Doctor option
             data.doctors.forEach((doctor) => {
-              var option = document.createElement("option");
-              option.value = doctor.id; // Set doctor id as value
+              const option = document.createElement("option");
+              option.value = doctor.id;
               option.text = doctor.full_name;
               doctorSelect.appendChild(option);
             });
           }
+        })
+        .catch((error) => {
+          console.error("Error fetching doctors:", error);
         });
     }
+  };
+
+  try {
+    const specField = document.getElementById("id_doctor_specialisation");
+    const locField = document.getElementById("id_doctor_location");
+
+    if (specField && locField) {
+      specField.addEventListener("change", updateDoctors);
+      locField.addEventListener("change", updateDoctors);
+    } else {
+      console.warn("Skipping doctor update – Specialisation or Location fields are not found.");
+    }
+
+  } catch (e) {
+    console.error("Form error:", e.message);
   }
 
-  // Attach Event Listeners to the fields Specialisation and Location
-  document
-    .getElementById("id_doctor_specialisation")
-    .addEventListener("change", updateDoctors);
-  document
-    .getElementById("id_doctor_location")
-    .addEventListener("change", updateDoctors);
+  // Modal for Delete Appointment functionality
+  const deleteButtons = document.querySelectorAll(".btn-delete-appointment");
+  const deleteForm = document.getElementById("deleteForm");
 
-  
-  /* 
-  // Delete Appointment Popup Validation / Internet searched solution, currently not working
-  // Function to handle the delete confirmation
-  function confirmDeleteHandler(event) {
-    // Prevent the default action of the link (which is to go to a URL)
-    event.preventDefault();
-
-    // Get the appointment ID from the clicked button
-    const appointmentId = event.target.getAttribute("data-appointment-id");
-
-    // Open the modal and pass the appointmentId to the modal
-    openDeleteModal(appointmentId);
-  }
-
-  // Function to open the delete modal 
-  function openDeleteModal(appointmentId) {
-    $("#deleteModal").modal("show"); // Show the modal
-
-    // Store the appointment ID in the modal's delete button
-    $("#confirmDelete").attr("data-appointment-id", appointmentId);
-  }
-
-  // When the "Delete" button inside the modal is clicked
-  $("#confirmDelete").click(function () {
-    const appointmentId = $(this).attr("data-appointment-id"); // Get the appointment ID
-
-    // Make the AJAX request to delete the appointment
-    $.ajax({
-      url: "/appointments/delete/" + appointmentId + "/", // Adjust URL for your delete endpoint
-      type: "POST",
-      data: {
-        csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), // Ensure CSRF protection
-      },
-      success: function (response) {
-        // On success, hide the modal and reload the page or handle the response
-        $("#deleteModal").modal("hide");
-        location.reload(); // Optionally reload to reflect the changes
-      },
-      error: function (xhr, errmsg, err) {
-        console.error("Error deleting appointment: ", errmsg);
-      },
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const appointmentId = this.getAttribute("data-appointment_id");
+      const baseUrl = this.getAttribute("data-delete-url").replace(/0\/?$/, "");
+      
+      // Ensure attributes are available before proceeding
+      if (appointmentId && baseUrl) {
+        deleteForm.action = `${baseUrl}${appointmentId}/`;
+      } else {
+        console.warn("Missing appointment ID or delete URL attribute on delete button.");
+      }
     });
-  });*/ 
+  });
+
 });

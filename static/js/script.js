@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Initialize the Flatpickr for the appointment date field
+  
+  // Flatpickr initialization for the appointment date field
   flatpickr("#id_appointment_date", {
     enableTime: true,
     dateFormat: "Y-m-d H:i", // Date and time format
@@ -10,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
     minDate: "today"  // Prevent selecting a past date
   });
 
-  // Function to update the doctor dropdown
+  // Function to update the doctor dropdown based on selected specialization and location
   const updateDoctors = function () {
     const specField = document.getElementById("id_doctor_specialisation");
     const locField = document.getElementById("id_doctor_location");
@@ -59,14 +60,33 @@ document.addEventListener("DOMContentLoaded", function () {
     const specField = document.getElementById("id_doctor_specialisation");
     const locField = document.getElementById("id_doctor_location");
 
-    if (!specField || !locField) {
-      throw new Error("Specialisation or Location fields not found.");
+    if (specField && locField) {
+      specField.addEventListener("change", updateDoctors);
+      locField.addEventListener("change", updateDoctors);
+    } else {
+      console.warn("Skipping doctor update – Specialisation or Location fields are not found.");
     }
-
-    specField.addEventListener("change", updateDoctors);
-    locField.addEventListener("change", updateDoctors);
 
   } catch (e) {
     console.error("Form error:", e.message);
   }
+
+  // Modal for Delete Appointment functionality
+  const deleteButtons = document.querySelectorAll(".btn-delete-appointment");
+  const deleteForm = document.getElementById("deleteForm");
+
+  deleteButtons.forEach(button => {
+    button.addEventListener("click", function () {
+      const appointmentId = this.getAttribute("data-appointment_id");
+      const baseUrl = this.getAttribute("data-delete-url").replace(/0\/?$/, "");
+      
+      // Ensure attributes are available before proceeding
+      if (appointmentId && baseUrl) {
+        deleteForm.action = `${baseUrl}${appointmentId}/`;
+      } else {
+        console.warn("Missing appointment ID or delete URL attribute on delete button.");
+      }
+    });
+  });
+
 });
