@@ -9,13 +9,27 @@ class Patient(models.Model):
     full_name = models.CharField(max_length=400, blank=True)
     email = models.EmailField(max_length=254, blank=True)
     phone_number = models.CharField(
-        max_length=30, 
-        blank=True, 
+        max_length=30,
+        blank=True,
         validators=[RegexValidator(r'^[\d\-\(\)\s]+$', 'Phone number must only contain numbers, spaces, dashes, or parentheses.')])
-    preferred_contact = models.CharField(default=None)
+    preferred_contact = models.CharField(default=None, max_length=200)
 
     def __str__(self):
         return self.full_name
+
+
+class Location(models.Model):
+    city = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.city
+
+
+class Specialisation(models.Model):
+    specialisation_name = models.CharField(blank=True)
+
+    def __str__(self):
+        return self.specialisation_name
 
 
 class Doctor(models.Model):
@@ -28,29 +42,14 @@ class Doctor(models.Model):
         max_length=30, 
         blank=True, 
         validators=[RegexValidator(r'^[\d\-\(\)\s]+$', 'Phone number must only contain numbers, spaces, dashes, or parentheses.')])
-    specialisations = models.CharField(max_length=200, blank=True)
-    city = models.CharField(max_length=200, blank=True)
+
+    specialisations = models.ManyToManyField(Specialisation, related_name='doctors')
+    locations = models.ManyToManyField(Location, related_name='doctors')
     address = models.CharField(max_length=200, blank=True)
-    features = models.CharField(blank=True)
+    features = models.CharField(blank=True, max_length=400)
 
     def __str__(self):
         return self.full_name
-
-
-class Location(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, default=1)
-    city = models.CharField(max_length=200, blank=True)
-
-    def __str__(self):
-        return self.city
-
-
-class Specialisation(models.Model):
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, default=1)
-    specialisation_name = models.CharField(blank=True)
-
-    def __str__(self):
-        return self.specialisation_name
 
 
 class Appointment(models.Model):
