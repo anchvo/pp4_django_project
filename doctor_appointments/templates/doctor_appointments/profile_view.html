@@ -89,9 +89,7 @@
           <p>
             <strong>Phone Number:</strong> {{ next_appointment.doctor.phone_number }}
           </p>
-          <p>
-            <strong>Features:</strong> {{ next_appointment.doctor.features }}
-          </p>
+          <p><strong>Features:</strong> {{ next_appointment.doctor.features|split:","|join:", " }} </p>
           {% elif doctor_profile %}
           <!-- If user is a Doctor -->
           <p>
