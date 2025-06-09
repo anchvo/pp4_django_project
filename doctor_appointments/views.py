@@ -1,10 +1,9 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.views import generic
 from .forms import PatientProfileForm, DoctorProfileForm, CreateAppointmentForm
 from .models import Appointment, Patient, Doctor, Location, Specialisation
 
@@ -208,7 +207,7 @@ def view_create_appointment(request):
 
         if form.is_valid():
 
-            # 
+            # Ensure a valid doctor is chosen
             doctor = form.cleaned_data.get('doctor')
             if not doctor:
                 form.add_error('doctor', 'You must select a valid doctor.')

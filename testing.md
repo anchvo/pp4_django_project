@@ -58,8 +58,8 @@ The following tests were carried out manually to ensure the portal is working co
 | Edit Appointment Form | User can edit their appointment | Edit Appointment Form renders and submits correctly | Works as expected |
 | Edit Appointment Form Restrictions | User can only edit the date/time and additional information of their appointment | Edit Appointment Form Validation loads correctly | Works as expected |
 | Delete Appointment Button | User can see create appointment button if they are a patient | Create Appointment button displays for patient profile only | Works as expected |
-| Delete Appointment Button | User can delete their appointment | Delete Appointment Button correctly deletes the appointment from the database | Does not work |
-| Delete Appointment Button User Confirmation | User has to confirm appointment deletion | User Confirmation modal loads and asks for confirmation | Does not work |
+| Delete Appointment Button | User can delete their appointment | Delete Appointment Button correctly deletes the appointment from the database | Works as expected |
+| Delete Appointment Button User Confirmation | User has to confirm appointment deletion | User Confirmation modal loads and asks for confirmation | Works as expected |
 | Phone User Input Restriction | User can only enter phone number in specific formats | User Input for phone numbers is restricted and validated to ensure correct input | Works as expected |
 | Date Input Restriction | User can not pick a date that is in the past | User Input for date / time is restricted and validated to ensure correct input | Works as expected |
 
@@ -80,8 +80,7 @@ The Database was accessed with the admin account and all database models show up
 All Python Files have been passed through the [CI PEP8 Python Linter](https://pep8ci.herokuapp.com/) and returned no errors except E501 line too long
 
 ## JavaScript Validation
-All JavaScript code has been passed through the [JSHint Validator](https://jshint.com/) and returned the general error E501 line too long, along with: 
-Two Unused Variables : confirmDeleteHandler and main, which is expected and relates to the above mentioned error with the modal not loading
+All JavaScript code has been passed through the [JSHint Validator](https://jshint.com/) and returned the general error E501 line too long.
 
 ## CSS Validation
 All CSS code has been passed through the [Jigsaw Validator](https://jigsaw.w3.org/css-validator/) and returned no errors.
