@@ -129,6 +129,11 @@ i {
     margin-top: 10px;
 }
 
+/*Delete Appointment Modal*/
+#deleteForm {
+    background-color: rgb(173, 193, 120); 
+}
+
 /*Footer*/
 
 .footer {

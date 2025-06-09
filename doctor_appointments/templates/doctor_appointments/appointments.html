@@ -25,8 +25,7 @@
           {% for appointment in appointments %}
               <div class="col-md-4 mb-4">
                   <div class="card">
-                      <div class="card-header">
-                          <h5 class="card-title">Appointment on: <br> {{ appointment.appointment_date|date:"F j, Y, g:i a" }}</h5>
+                      <div class="card-header"><h5 class="card-title"><i class="fa-regular fa-calendar-check"></i>Appointment on: <br><strong> {{ appointment.appointment_date|date:"F j, Y, g:i a" }} </strong></h5>
                       </div>
                       <div class="card-body">
                           {% if patient_profile %}
@@ -126,7 +125,9 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-danger" data-delete-url="{% url 'view_delete_appointment' appointment_id=0 %}" >Delete</button>
+            <button type="submit" class="btn btn-delete" 
+            data-delete-url="{% url 'view_delete_appointment' appointment_id=0 %}" 
+            data-appointment_id="{{ appointment.id }}">Delete</button>
           </div>
         </form>
       </div>

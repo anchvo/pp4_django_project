@@ -376,13 +376,6 @@ def view_delete_appointment(request, appointment_id):
     # Fetch the appointment object using the appointment_id from the URL
     appointment = get_object_or_404(Appointment, id=appointment_id)
 
-    # Check if the appointment belongs to the logged-in user
-    if appointment.patient != request.user:
-        messages.error(
-            request, "You are not authorized to delete this appointment.")
-        # Redirect to the appointment list if unauthorized
-        return redirect('view_all_appointments')
-
     if request.method == 'POST':
         # Proceed with the deletion if it's a POST request
         appointment.delete()
